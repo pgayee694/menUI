@@ -55,20 +55,20 @@ coverage.xml
 *.mo
 *.pot
 
-# Django stuff:
+# Django files:
 *.log
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
 
-# Flask stuff:
+# Flask files:
 instance/
 .webassets-cache
 
-# SQLite stuff:
+# SQLite files:
 *.db
 
-# Scrapy stuff:
+# Scrapy files:
 .scrapy
 
 # Sphinx documentation
