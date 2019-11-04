@@ -1,0 +1,23 @@
+    <!DOCTYPE html>
+    <html>
+    <title>Log in</title>
+    <body>
+
+    <h1>Log in</h1>
+    {% block login %}
+    <!-- Action URL will need to be updated once the script to handle user info is written-->
+    <form action = "" method = "POST" id = "logIn" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+        </p>
+        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        <p>{{ form.submit1() }}</p>
+    </form>
+    {% endblock %}
+    <a href="/signup/">Or sign up if you don't have an account!</a>
