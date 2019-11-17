@@ -9,6 +9,6 @@ class LoginForm(FlaskForm):
     submit1 = SubmitField('Log In')
 
 class SignInForm(FlaskForm):
-    username = StringField('UsernameSignUp', validators=[DataRequired()])
-    password = PasswordField('PasswordSignUp', validators=[DataRequired()])
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
     submit2 = SubmitField('Sign Up')

@@ -14,6 +14,7 @@ def login():
             form_log_in.username.data, form_log_in.remember_me.data))
         return redirect('/')
     return render_template('login.html', title='Log In', form=form_log_in)
+
 @app.route('/signup/', methods=['GET', 'POST'])
 def signup():
     form_sign_up = SignInForm()
