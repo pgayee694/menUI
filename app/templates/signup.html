@@ -13,7 +13,17 @@
         </p>
         <p>
             {{ form.password.label }}<br>
+            (Maximum size of 32 characters)<br>
             {{ form.password(size=32) }}
+        </p>
+        <p>
+            {{ form.city.label }}<br>
+            {{ form.city(size=32) }}
+        </p>
+        <p>
+            {{ form.region.label }}<br>
+            (State, province, etc.)<br>
+            {{ form.region(size=32) }}
         </p>
         <p>{{ form.submit2() }}</p>
     </form>
