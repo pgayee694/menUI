@@ -11,6 +11,7 @@ class LoginForm(FlaskForm):
 class SignInForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
+    password2 = PasswordField('Confirm Password', validators=[DataRequired()])
     city = StringField('City', validators=[DataRequired()])
-    region= StringField('Region', validators=[DataRequired()])
+    region = StringField('Region', validators=[DataRequired()])
     submit2 = SubmitField('Sign Up')

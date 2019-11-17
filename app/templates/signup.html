@@ -4,6 +4,7 @@
  <body>
     <h1>Sign up!</h1>
     {% block signup %}
+    (Maximum size of 32 characters for all fields)<br>
     <!-- Action URL will need to be updated once the script to handle user info is written-->
     <form action = "" method = "POST" id = "signIn" novalidate>
         {{ form.hidden_tag() }}
@@ -13,10 +14,14 @@
         </p>
         <p>
             {{ form.password.label }}<br>
-            (Maximum size of 32 characters)<br>
             {{ form.password(size=32) }}
         </p>
         <p>
+            {{ form.password2.label }}<br>
+            {{ form.password2(size=32) }}
+        </p>
+        <p>
+
             {{ form.city.label }}<br>
             {{ form.city(size=32) }}
         </p>
