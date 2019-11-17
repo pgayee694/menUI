@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <style>
+
+            .code {
+                background-color: #d8d1de;
+                color: #45474a;
+            }
+
+            .form {
+				width: 50%;
+                padding-top: 20px;
+				padding-bottom: 50px;
+				padding-left: 33%;
+				float: center;
+                border: 4px solid #873ebb;
+                border-radius: 10px;
+				background-color: #fbf2ff;
+				margin-left: 10%;
+				margin-top: 70px;
+				font-weight: bold;
+            }
+			
+			.center {
+				margin-left: 0%;
+			}
+
+        </style>
+    </head>
+    <body class="code">
+        <h1>{{ title }}</h1>
+
+        <form action="" class="form">
+
+            <p>Resturant Name</p>
+            <input name="resturantName" type="text">
+			<br/>
+
+            <p>Categories</p>
+            <select name="categories" multiple>
+                {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+                {% endfor %}
+            </select>
+			<br/>
+
+            <p>Cuisines</p>
+            <select name="cuisines" multiple>n     
+                {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+                {% endfor %}
+            </select>
+			<br/>
+
+            <p>Establishments</p>
+            <select name="establishments" multiple>
+                {% for establishment in establishments %}
+                <option value="{{ establishment }}">{{ establishment }}</option>
+                {% endfor %}
+            </select>
+			
+			<br/>
+			<br/>
+            <input type="submit" class="center">
+
+        </form>
+    </body>
+</html>
