@@ -6,39 +6,39 @@
  <title>Sign up</title>
  <body>
 	<div class="mainContainer">
-    <h1 class = "bar">Sign up!</h1>
-    {% block signup %}
-    (Maximum size of 32 characters for all fields)<br>
+		<h1 class = "bar">Sign up!</h1>
+		{% block signup %}
+		(Maximum size of 32 characters for all fields)<br>
     <!-- Action URL will need to be updated once the script to handle user info is written-->
-    <div class="loginContainer">
-	<form action = "" method = "POST" id = "signIn" novalidate>
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.username.label }}<br>
-            {{ form.username(size=32) }}
-        </p>
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=32) }}
-        </p>
-        <p>
-            {{ form.password2.label }}<br>
-            {{ form.password2(size=32) }}
-        </p>
-        <p>
+		<div class="loginContainer">
+			<form action = "" method = "POST" id = "signIn" novalidate>
+				{{ form.hidden_tag() }}
+				<p>
+					{{ form.username.label }}<br>
+					{{ form.username(size=32) }}
+				</p>
+				<p>
+					{{ form.password.label }}<br>
+					{{ form.password(size=32) }}
+				</p>
+				<p>
+					{{ form.password2.label }}<br>
+					{{ form.password2(size=32) }}
+				</p>
+				<p>
 
-            {{ form.city.label }}<br>
-            {{ form.city(size=32) }}
-        </p>
-        <p>
-            {{ form.region.label }}<br>
-            (State, province, etc.)<br>
-            {{ form.region(size=32) }}
-        </p>
-        <p>{{ form.submit2() }}</p>
-    </form>
-    {% endblock %}
+					{{ form.city.label }}<br>
+					{{ form.city(size=32) }}
+				</p>
+				<p>
+					{{ form.region.label }}<br>
+					(State, province, etc.)<br>
+					{{ form.region(size=32) }}
+				</p>
+				<p>{{ form.submit2() }}</p>
+			</form>
+			{% endblock %}
+		</div>
 	</div>
-	</div>
- </body>
- </html>
+</body>
+</html>
