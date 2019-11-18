@@ -4,7 +4,7 @@ from app.forms import LoginForm, SignInForm
 
 @app.route('/')
 def hello():
-    return 'Hello, World!'
+    return render_template('home.html', title='Home')
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
