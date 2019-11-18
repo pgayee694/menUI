@@ -87,8 +87,22 @@ class UtilsTest(unittest.TestCase):
         categories = utils.find_categories()[0:2]
         cat_ids = utils.get_category_id(categories)
 
-        actual = utils.search_restaurants(loc_id, cat_ids, cu_ids, establ_ids, 'Qdoba')
-        print(actual)
+        actual = utils.search_restaurants(loc_id, cat_ids, cu_ids, establ_ids)
+
+        self.assertIsNotNone(actual)
+    
+    def test_get_restaurant_details(self):
+        loc_id = utils.find_loc_id('Omaha', 'Nebraska')
+        establishments = utils.find_establishments(loc_id)[0:2]
+        establ_ids = utils.get_establishment_id(loc_id, establishments)
+        cuisines = utils.find_cuisines(loc_id)[0:2]
+        cu_ids = utils.get_cuisine_id(loc_id, cuisines)
+        categories = utils.find_categories()[0:2]
+        cat_ids = utils.get_category_id(categories)
+
+        res_id = utils.search_restaurants(loc_id, cat_ids, cu_ids, establ_ids)[0]
+
+        actual = utils.get_restaurant_details(res_id)
 
         self.assertIsNotNone(actual)
 

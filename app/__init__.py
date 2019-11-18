@@ -5,7 +5,6 @@ from flask_migrate import Migrate
 from flask_session import Session
 
 app = Flask(__name__)
-SESSION_TYPE = 'filesystem'
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)

@@ -145,7 +145,7 @@ def get_establishment_id(loc_id, establishment_names):
 
     return ids
 
-def search_restaurants(loc_id, cat_ids, cu_ids, establ_ids, res_name):
+def search_restaurants(loc_id, cat_ids, cu_ids, establ_ids):
     url = 'https://developers.zomato.com/api/v2.1/search'
     headers = {'user_key': 'e74153df38632880474d4788e0936560'}
     params = {'entity_id': loc_id, 'cuisine': list_to_string(cu_ids), 'establishment_type': list_to_string(establ_ids), 'category': list_to_string(cat_ids), 'entity_type': 'city'}
@@ -156,13 +156,29 @@ def search_restaurants(loc_id, cat_ids, cu_ids, establ_ids, res_name):
 
     if response:
         body = response.json()
-        print(body)
         for restaurant in body['restaurants']:
-            print(restaurant['restaurant']['name'])
-            if res_name in restaurant['restaurant']['name']:
-                ids.append(restaurant['restaurant']['R']['res_id'])
+            ids.append(restaurant['restaurant']['R']['res_id'])
     
     return ids
+
+def get_restaurant_details(res_id):
+    url = 'https://developers.zomato.com/api/v2.1/restaurant'
+    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
+    params = {'res_id': res_id}
+
+    response = requests.get(url, headers=headers, params=params)
+
+    if response:
+        body = response.json()
+        return view_models.Restaurant(body['name'],
+        body['location']['address'],
+        body['photos'][0]['photo']['url'],
+        body['timings'],
+        body['price_range'],
+        body['user_rating']['aggregate_rating'],
+        body['menu_url'])
+    
+    return None
 
 def list_to_string(lst):
     if not lst:
