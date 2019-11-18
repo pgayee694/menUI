@@ -1,37 +1,44 @@
  <!DOCTYPE html>
  <html>
+ <link rel="stylesheet" href="{{ url_for('static',filename='styles/loginSignup.css') }}">
+ <link href='https://fonts.googleapis.com/css?family=Lexend Deca' rel='stylesheet'>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
  <title>Sign up</title>
  <body>
-    <h1>Sign up!</h1>
-    {% block signup %}
-    (Maximum size of 32 characters for all fields)<br>
+	<div class="mainContainer">
+		<h1 class = "bar">Sign up!</h1>
+		{% block signup %}
+		(Maximum size of 32 characters for all fields)<br>
     <!-- Action URL will need to be updated once the script to handle user info is written-->
-    <form action = "" method = "POST" id = "signIn" novalidate>
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.username.label }}<br>
-            {{ form.username(size=32) }}
-        </p>
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=32) }}
-        </p>
-        <p>
-            {{ form.password2.label }}<br>
-            {{ form.password2(size=32) }}
-        </p>
-        <p>
+		<div class="loginContainer">
+			<form action = "" method = "POST" id = "signIn" novalidate>
+				{{ form.hidden_tag() }}
+				<p>
+					{{ form.username.label }}<br>
+					{{ form.username(size=32) }}
+				</p>
+				<p>
+					{{ form.password.label }}<br>
+					{{ form.password(size=32) }}
+				</p>
+				<p>
+					{{ form.password2.label }}<br>
+					{{ form.password2(size=32) }}
+				</p>
+				<p>
 
-            {{ form.city.label }}<br>
-            {{ form.city(size=32) }}
-        </p>
-        <p>
-            {{ form.region.label }}<br>
-            (State, province, etc.)<br>
-            {{ form.region(size=32) }}
-        </p>
-        <p>{{ form.submit2() }}</p>
-    </form>
-    {% endblock %}
- </body>
- </html>
+					{{ form.city.label }}<br>
+					{{ form.city(size=32) }}
+				</p>
+				<p>
+					{{ form.region.label }}<br>
+					(State, province, etc.)<br>
+					{{ form.region(size=32) }}
+				</p>
+				<p>{{ form.submit2() }}</p>
+			</form>
+			{% endblock %}
+		</div>
+	</div>
+</body>
+</html>
