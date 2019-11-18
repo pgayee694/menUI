@@ -20,6 +20,12 @@ def signup():
     form_sign_up = SignInForm()
     print(form_sign_up.username.data)
     if form_sign_up.validate_on_submit() and form_sign_up.password.data == form_sign_up.password2.data:
+
+@app.route('/signup/', methods=['GET', 'POST'])
+def signup():
+    form_sign_up = SignInForm()
+    if form_sign_up.validate_on_submit():
+>>>>>>> Stashed changes
         flash('Sign up requested for user{}'.format(form_sign_up.username.data))
         return redirect('/')
     return render_template('signup.html', title='Sign Up', form=form_sign_up)
