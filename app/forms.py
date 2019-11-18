@@ -9,9 +9,9 @@ class LoginForm(FlaskForm):
     submit1 = SubmitField('Log In')
 
 class SignInForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(max=32)])
-    password = PasswordField('Password', validators=[DataRequired(), Length(max=32)])
-    password2 = PasswordField('Confirm Password', validators=[DataRequired(), Length(max=32)])
-    city = StringField('City', validators=[DataRequired(), Length(max=32)])
-    region = StringField('Region', validators=[DataRequired(), Length(max=32)])
+    username = StringField('Username', validators=[DataRequired(), Length(max=64)])
+    password = PasswordField('Password', validators=[DataRequired(), Length(max=128)])
+    password2 = PasswordField('Confirm Password', validators=[DataRequired(), Length(max=128)])
+    city = StringField('City', validators=[DataRequired(), Length(max=64)])
+    region = StringField('Region', validators=[DataRequired(), Length(max=64)])
     submit2 = SubmitField('Sign Up')
