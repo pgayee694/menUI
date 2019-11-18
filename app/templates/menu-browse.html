@@ -2,62 +2,35 @@
 <html>
     <head>
         <title>{{ title }}</title>
-        <style>
-            .code {
-                background-color: #d8d1de;
-                color: #45474a;
-            }
-
-            .resturant-item {
-                padding: 10px;
-				padding-left: 20px;
-                border: 4px solid #873ebb;
-				margin-left: 20%;
-				margin-right: 25%;
-                border-radius: 10px;
-				background-color: #fbf2ff;
-				width: 55%;
-				overflow: auto;
-            }
-
-            .left-side {
-                float: left;
-            }
-			
-			.right-side {
-				padding-left: 45%;
-			}
-			
-			.title {
-				font-weight: bold;
-			}
-			
-			img {
-				border: 2px solid #000;
-				border-radius: 10px;
-			}
-
-        </style>
+        <link rel="stylesheet" href="{{ url_for('static',filename='styles/menu-browse.css') }}">
     </head>
     <body class="code">
         <h1 class="title">{{ title }}</h1>
 
         {% for resturant in resturants %}
-        <div class="resturant-item">
-		
-			<div class="left-side">
-				<p class="title">{{ resturant.name }}</p>
-				<img src="{{ resturant.photo }}">
+		<a href={{ resturant.link }}">
+			<div class="resturant-item">
+			
+				<div class="left">
+					<p class="title">{{ resturant.name }}</p>
+					<img src="{{ resturant.photo }}">
+				</div>
+				
+				<div class="middle">
+					<p>{{ resturant.address }}</p>
+					<p>{{ resturant.timing }}</p>
+					<p>{{ resturant.priceRange }}</p>
+					<p>{{ resturant.rating }}</p>
+				</div>
+				
+				{% if isAdd %}
+				<div class="right">
+					<button class="add" action="addResturant">Add {{ resturant.name }}"</button>
+				</div>
+				{% endif %}
+				
 			</div>
-			
-            <div class="right-side">
-                <p>{{ resturant.address }}</p>
-                <p>{{ resturant.timing }}</p>
-                <p>{{ resturant.priceRange }}</p>
-                <p>{{ resturant.rating }}</p>
-            </div>
-			
-        </div>
+		</a>
         {% endfor %}
     </body>
 </html>
