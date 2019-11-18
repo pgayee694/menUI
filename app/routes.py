@@ -1,5 +1,5 @@
 from app import app, utils, view_models
-from flask import Flask, render_template, flash, redirect, session
+from flask import Flask, render_template, flash, redirect, session, request
 import requests
 from app.forms import LoginForm, SignInForm
 
@@ -19,16 +19,16 @@ def menu_search():
 @app.route('/menu-browse', methods=['POST'])
 def menu_browse():
     loc_id = session['loc_id']
-    res_name = request.form.get('restaurantName')
+    res_name = request.form.get('restaurantName') or ''
     category = request.form.getlist('category')
     cuisine = request.form.getlist('cuisine')
     establishment = request.form.getlist('establishment')
-
+    
     cat_ids = None
     cu_ids = None
     establ_ids = None
     if category:
-        cat_ids = utils.get_category_id(loc_id, category)
+        cat_ids = utils.get_category_id(category)
     if cuisine:
         cu_ids = utils.get_cuisine_id(loc_id, cuisine)
     if establishment:
@@ -40,7 +40,7 @@ def menu_browse():
     for res_id in res_ids:
         restaurants.append(utils.get_restaurant_details(res_id))
 
-    valid_restaurants = [r for restaurant in restaurants if res_name in r.name]
+    valid_restaurants = [restaurant for restaurant in restaurants if res_name in restaurant.name]
     return render_template('menu-browse.html', restaurants=valid_restaurants, isAdd=True)
 
 @app.route('/login/', methods=['GET', 'POST'])
@@ -60,4 +60,3 @@ def signup():
         flash('Sign up requested for user{}'.format(form_sign_up.username.data))
         return redirect('/')
     return render_template('signup.html', title='Sign Up', form=form_sign_up)
->>>>>>> origin/master

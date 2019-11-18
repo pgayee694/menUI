@@ -90,6 +90,7 @@ class UtilsTest(unittest.TestCase):
         actual = utils.search_restaurants(loc_id, cat_ids, cu_ids, establ_ids)
 
         self.assertIsNotNone(actual)
+        self.assertGreater(len(actual), 0)
     
     def test_get_restaurant_details(self):
         loc_id = utils.find_loc_id('Omaha', 'Nebraska')

@@ -1,5 +1,5 @@
 import requests
-from app import view_models
+from app import app, view_models
 
 def find_loc_id(city, region):
     """
@@ -7,7 +7,7 @@ def find_loc_id(city, region):
     """
 
     url = 'https://developers.zomato.com/api/v2.1/cities'
-    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
+    headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
     params = {'q': '{}, {}'.format(city, region)}
     
     response = requests.get(url, headers=headers, params=params)
@@ -30,7 +30,7 @@ def find_categories():
     """
 
     url = 'https://developers.zomato.com/api/v2.1/categories'
-    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
+    headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
 
     response = requests.get(url, headers=headers)
 
@@ -49,7 +49,7 @@ def get_category_id(category_names):
     """
 
     url = 'https://developers.zomato.com/api/v2.1/categories'
-    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
+    headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
 
     response = requests.get(url, headers=headers)
 
@@ -69,7 +69,7 @@ def find_cuisines(loc_id):
     """
 
     url = 'https://developers.zomato.com/api/v2.1/cuisines'
-    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
+    headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
     params = {'city_id': loc_id}
 
     response = requests.get(url, headers=headers, params=params)
@@ -89,7 +89,7 @@ def get_cuisine_id(loc_id, cuisine_names):
     """
 
     url = 'https://developers.zomato.com/api/v2.1/cuisines'
-    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
+    headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
     params = {'city_id': loc_id}
 
     response = requests.get(url, headers=headers, params=params)
@@ -110,7 +110,7 @@ def find_establishments(loc_id):
     """
 
     url = 'https://developers.zomato.com/api/v2.1/establishments'
-    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
+    headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
     params = {'city_id': loc_id}
 
     response = requests.get(url, headers=headers, params=params)
@@ -130,7 +130,7 @@ def get_establishment_id(loc_id, establishment_names):
     """
 
     url = 'https://developers.zomato.com/api/v2.1/establishments'
-    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
+    headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
     params = {'city_id': loc_id}
 
     response = requests.get(url, headers=headers, params=params)
@@ -147,7 +147,7 @@ def get_establishment_id(loc_id, establishment_names):
 
 def search_restaurants(loc_id, cat_ids, cu_ids, establ_ids):
     url = 'https://developers.zomato.com/api/v2.1/search'
-    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
+    headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
     params = {'entity_id': loc_id, 'cuisine': list_to_string(cu_ids), 'establishment_type': list_to_string(establ_ids), 'category': list_to_string(cat_ids), 'entity_type': 'city'}
 
     response = requests.get(url, headers=headers, params=params)
@@ -158,12 +158,12 @@ def search_restaurants(loc_id, cat_ids, cu_ids, establ_ids):
         body = response.json()
         for restaurant in body['restaurants']:
             ids.append(restaurant['restaurant']['R']['res_id'])
-    
+
     return ids
 
 def get_restaurant_details(res_id):
     url = 'https://developers.zomato.com/api/v2.1/restaurant'
-    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
+    headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
     params = {'res_id': res_id}
 
     response = requests.get(url, headers=headers, params=params)
