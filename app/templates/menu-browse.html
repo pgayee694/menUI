@@ -17,15 +17,15 @@
 				</div>
 				
 				<div class="middle">
-					<p>{{ restaurant.address }}</p>
-					<p>{{ restaurant.timing }}</p>
-					<p>{{ restaurant.priceRange }}</p>
-					<p>{{ restaurant.rating }}</p>
+					<p>Address: {{ restaurant.address }}</p>
+					<p>Open: {{ restaurant.timing }}</p>
+					<p>Average Price: {{ restaurant.priceRange }}</p>
+					<p>Rating: {{ restaurant.rating }}</p>
 				</div>
 				
 				{% if isAdd %}
 				<div class="right">
-					<button class="add">Add {{ restaurant.name }}"</button>
+					<button class="add">Add {{ restaurant.name }}</button>
 				</div>
 				{% endif %}
 				
