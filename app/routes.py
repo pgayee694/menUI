@@ -7,7 +7,7 @@ from flask_login import login_user, current_user
 
 @app.route('/')
 def hello():
-    return 'Hello, World!'
+    return render_template('home.html', title='Home')
 
 @app.route('/menu-search', methods=['GET'])
 def menu_search():
