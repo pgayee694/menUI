@@ -1,0 +1,22 @@
+.code {
+	background-color: #d8d1de;
+	color: #45474a;
+}
+
+.form {
+	width: 50%;
+	padding-top: 20px;
+	padding-bottom: 50px;
+	padding-left: 33%;
+	float: center;
+	border: 4px solid #873ebb;
+	border-radius: 10px;
+	background-color: #fbf2ff;
+	margin-left: 10%;
+	margin-top: 70px;
+	font-weight: bold;
+}
+
+.center {
+	margin-left: 0%;
+}

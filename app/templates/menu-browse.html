@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <link rel="stylesheet" href="{{ url_for('static',filename='styles/menu-browse.css') }}">
+    </head>
+    <body class="code">
+        <h1 class="title">{{ title }}</h1>
+
+        {% for resturant in resturants %}
+		<a href={{ resturant.link }}">
+			<div class="resturant-item">
+			
+				<div class="left">
+					<p class="title">{{ resturant.name }}</p>
+					<img src="{{ resturant.photo }}">
+				</div>
+				
+				<div class="middle">
+					<p>{{ resturant.address }}</p>
+					<p>{{ resturant.timing }}</p>
+					<p>{{ resturant.priceRange }}</p>
+					<p>{{ resturant.rating }}</p>
+				</div>
+				
+				{% if isAdd %}
+				<div class="right">
+					<button class="add" action="addResturant">Add {{ resturant.name }}"</button>
+				</div>
+				{% endif %}
+				
+			</div>
+		</a>
+        {% endfor %}
+    </body>
+</html>

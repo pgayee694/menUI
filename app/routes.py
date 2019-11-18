@@ -5,6 +5,16 @@ from app.forms import LoginForm, SignInForm
 @app.route('/')
 def hello():
     return 'Hello, World!'
+	
+@app.route('/menu-search', methods=['GET'])
+def menu_search():
+        return render_template('menu-search.html',
+		title='Menu Search')
+		
+@app.route('/menu-browse', methods=['GET'])
+def menu_browse():
+        return render_template('menu-browse.html',
+		title='Menu Browse')
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
