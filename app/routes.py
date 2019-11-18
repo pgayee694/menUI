@@ -1,6 +1,7 @@
 from app import app, utils, view_models
-from flask import render_template, session
+from flask import Flask, render_template, flash, redirect, session
 import requests
+from app.forms import LoginForm, SignInForm
 
 @app.route('/')
 def hello():
@@ -41,3 +42,22 @@ def menu_browse():
 
     valid_restaurants = [r for restaurant in restaurants if res_name in r.name]
     return render_template('menu-browse.html', restaurants=valid_restaurants, isAdd=True)
+
+@app.route('/login/', methods=['GET', 'POST'])
+def login():
+    form_log_in = LoginForm()
+    if form_log_in.validate_on_submit():
+        flash('Login requested for user {}, remember_me={}'.format(
+            form_log_in.username.data, form_log_in.remember_me.data))
+        return redirect('/')
+    return render_template('login.html', title='Log In', form=form_log_in)
+
+@app.route('/signup/', methods=['GET', 'POST'])
+def signup():
+    form_sign_up = SignInForm()
+    print(form_sign_up.username.data)
+    if form_sign_up.validate_on_submit() and form_sign_up.password.data == form_sign_up.password2.data:
+        flash('Sign up requested for user{}'.format(form_sign_up.username.data))
+        return redirect('/')
+    return render_template('signup.html', title='Sign Up', form=form_sign_up)
+>>>>>>> origin/master
