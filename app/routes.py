@@ -29,12 +29,10 @@ def signup():
     form_sign_up = SignInForm()
     if form_sign_up.validate_on_submit() and form_sign_up.password.data == form_sign_up.password2.data:
         #before creating a location query database and see if it exists already
-        #if it doesn't, make a location object and add to DB before building user
         db.create_all()
         #CURRENTLY THIS IS DOING NO VALIDATION AND ALWAYS ADDING USERS TO THE DATABASE
         loc = models.Location(city=form_sign_up.city.data, region=form_sign_up.region.data, country='placeholder')
         db.session.add(loc)
-        #potentially uncomment this if you need to commit this before user
         db.session.commit()
         flash('Sign up requested for user{}'.format(form_sign_up.username.data))
         user = models.User(username=form_sign_up.username.data, location_id=loc.id)
