@@ -1,0 +1,170 @@
+/*! HTML5 Boilerplate v7.2.0 | MIT License | https://html5boilerplate.com/ */
+
+/* main.css 2.0.0 | MIT License | https://github.com/h5bp/main.css#readme */
+/*
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ */
+
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+
+html {
+  color: #222;
+  font-size: 1em;
+  line-height: 1.4;
+  background-color: #d8d1de;
+
+}
+/*
+ * Remove text-shadow in selection highlight:
+ * https://twitter.com/miketaylr/status/12228805301
+ *
+ * Vendor-prefixed and regular ::selection selectors cannot be combined:
+ * https://stackoverflow.com/a/16982510/7133471
+ *
+ * Customize the background color to match your design.
+ */
+
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+.btn {
+  background: #873ebb;
+  color: white;
+  border-radius: 5px;
+  border: 1px;
+}
+
+.bar {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1), 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0px 35px 15px -15px #873ebb;
+  text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.2);
+  background-color: #653893;
+  color: white;
+  text-align: center;
+  font-family: 'Lexend Deca';
+  font-size: 32px;
+
+
+}
+/*
+========================================================================================================================
+Divs: Main container is for the main section of the page, with a lighter background for text.
+========================================================================================================================
+ */
+.mainContainer {
+  background-color: #fbf2ff;
+  padding: 0;
+  left: 50%;
+  top: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  height: 70vh;
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
+}
+
+.loginContainer {
+  width: 70%;
+  padding: 10px;
+  margin: auto;
+  text-align: center;
+
+
+}
+/*
+========================================================================================================================
+ */
+.loginForms{
+  border: #873ebb;
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: inset 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
+  background-color: white;
+  margin-top: 1%;
+}
+
+label {
+  font-family: 'Lexend Deca';
+}
+
+#remember_me {
+  font-family: 'Lexend Deca';
+  margin-top: 5%;
+  box-shadow: inset 0px 35px 15px -15px #873ebb;
+  background-color: #653893;
+  border: 1px solid #3d3147;
+  border-radius: 10px;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: 'Lexend Deca';
+  font-size: 15px;
+  padding: 9px 23px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0px -1px 0px #7a2a1d;
+}
+#submit1 {
+  font-family: 'Lexend Deca';
+  margin-top: 5%;
+  box-shadow: inset 0px 35px 15px -15px #873ebb;
+  background-color: #653893;
+  border: 1px solid #3d3147;
+  border-radius: 10px;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: 'Lexend Deca';
+  font-size: 15px;
+  padding: 9px 23px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0px -1px 0px #7a2a1d;
+}
+#submit2 {
+  font-family: 'Lexend Deca';
+  margin-top: 5%;
+  box-shadow: inset 0px 35px 15px -15px #873ebb;
+  background-color: #653893;
+  border: 1px solid #3d3147;
+  border-radius: 10px;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: 'Lexend Deca';
+  font-size: 15px;
+  padding: 9px 23px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0px -1px 0px #7a2a1d;
+}
+
+a {
+  margin-top: 5%;
+  border-radius: 10px;
+  display: inline-block;
+  cursor: pointer;
+  color: #873ebb;
+  font-family: 'Lexend Deca';
+  font-size: 15px;
+  padding: 9px 23px;
+  text-align: center;
+  text-decoration: underline;
+}
+
