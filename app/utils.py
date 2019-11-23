@@ -34,34 +34,14 @@ def find_categories():
 
     response = requests.get(url, headers=headers)
 
-    categories = []
+    categories = {}
 
     if response:
         body = response.json()
         for category in body['categories']:
-            categories.append(category['categories']['name'])
+            categories[category['categories']['name']] = category['categories']['id']
 
     return categories
-
-def get_category_id(category_names):
-    """
-    Queries Zomato API for the id associated with the passed in category
-    """
-
-    url = 'https://developers.zomato.com/api/v2.1/categories'
-    headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
-
-    response = requests.get(url, headers=headers)
-
-    ids = []
-
-    if response:
-        body = response.json()
-        for category in body['categories']:
-            if category['categories']['name'] in category_names:
-                ids.append(category['categories']['id'])
-
-    return ids
 
 def find_cuisines(loc_id):
     """
@@ -74,35 +54,14 @@ def find_cuisines(loc_id):
 
     response = requests.get(url, headers=headers, params=params)
 
-    cuisines = []
+    cuisines = {}
 
     if response:
         body = response.json()
         for cuisine in body['cuisines']:
-            cuisines.append(cuisine['cuisine']['cuisine_name'])
+            cuisines[cuisine['cuisine']['cuisine_name']] = cuisine['cuisine']['cuisine_id']
 
     return cuisines
-
-def get_cuisine_id(loc_id, cuisine_names):
-    """
-    Queries Zomato API for cuisine id based off the passed in cuisine
-    """
-
-    url = 'https://developers.zomato.com/api/v2.1/cuisines'
-    headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
-    params = {'city_id': loc_id}
-
-    response = requests.get(url, headers=headers, params=params)
-
-    ids = []
-
-    if response:
-        body = response.json()
-        for cuisine in body['cuisines']:
-            if cuisine['cuisine']['cuisine_name'] in cuisine_names:
-                ids.append(cuisine['cuisine']['cuisine_id'])
-
-    return ids
 
 def find_establishments(loc_id):
     """
@@ -115,40 +74,19 @@ def find_establishments(loc_id):
 
     response = requests.get(url, headers=headers, params=params)
 
-    establishments = []
+    establishments = {}
 
     if response:
         body = response.json()
         for establishment in body['establishments']:
-            establishments.append(establishment['establishment']['name'])
+            establishments[establishment['establishment']['name']] = establishment['establishment']['id']
 
     return establishments
 
-def get_establishment_id(loc_id, establishment_names):
-    """
-    Queries Zomato API for establishment types at location id
-    """
-
-    url = 'https://developers.zomato.com/api/v2.1/establishments'
-    headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
-    params = {'city_id': loc_id}
-
-    response = requests.get(url, headers=headers, params=params)
-
-    ids = []
-
-    if response:
-        body = response.json()
-        for establishment in body['establishments']:
-            if establishment['establishment']['name'] in establishment_names:
-                ids.append(establishment['establishment']['id'])
-
-    return ids
-
-def search_restaurants(loc_id, cat_ids, cu_ids, establ_ids):
+def search_restaurants(loc_id, res_name, cat_ids, cu_ids, establ_ids):
     url = 'https://developers.zomato.com/api/v2.1/search'
     headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
-    params = {'entity_id': loc_id, 'cuisine': list_to_string(cu_ids), 'establishment_type': list_to_string(establ_ids), 'category': list_to_string(cat_ids), 'entity_type': 'city'}
+    params = {'entity_id': loc_id, 'q': res_name, 'cuisine': list_to_string(cu_ids), 'establishment_type': list_to_string(establ_ids), 'category': list_to_string(cat_ids), 'entity_type': 'city'}
 
     response = requests.get(url, headers=headers, params=params)
     
