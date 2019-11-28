@@ -1,6 +1,8 @@
 from app import app, utils, view_models, models, db
 from flask import Flask, render_template, flash, redirect, session, request
 import requests
+import time
+import sys
 from app.forms import LoginForm, SignInForm
 from .models import db, User, Location
 from flask_login import login_user, current_user
@@ -38,10 +40,7 @@ def menu_browse():
     establ_ids = [establs[establ] for establ in establishment]
 
     res_ids = utils.search_restaurants(loc_id, res_name, cat_ids, cu_ids, establ_ids)
-
-    restaurants = []
-    for res_id in res_ids:
-        restaurants.append(utils.get_restaurant_details(res_id))
+    restaurants = utils.get_restaurant_details(res_ids)
 
     return render_template('menu-browse.html', restaurants=restaurants, isAdd=True)
 

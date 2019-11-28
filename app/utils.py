@@ -1,4 +1,7 @@
 import requests
+from concurrent.futures import ThreadPoolExecutor
+import concurrent.futures as cf
+from requests_futures.sessions import FuturesSession
 from app import app, view_models
 
 def find_loc_id(city, region):
@@ -83,12 +86,12 @@ def find_establishments(loc_id):
 
     return establishments
 
-def search_restaurants(loc_id, res_name, cat_ids, cu_ids, establ_ids):
+def search_restaurants(loc_id, res_name, cat_ids, cu_ids, establ_ids, connection_session=None):
     url = 'https://developers.zomato.com/api/v2.1/search'
     headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
     params = {'entity_id': loc_id, 'q': res_name, 'cuisine': list_to_string(cu_ids), 'establishment_type': list_to_string(establ_ids), 'category': list_to_string(cat_ids), 'entity_type': 'city'}
 
-    response = requests.get(url, headers=headers, params=params)
+    response = connection_session.get(url, headers=headers, params=params) if connection_session else requests.get(url, headers=headers, params=params)
     
     ids = []
 
@@ -99,24 +102,42 @@ def search_restaurants(loc_id, res_name, cat_ids, cu_ids, establ_ids):
 
     return ids
 
-def get_restaurant_details(res_id):
+def get_restaurant_details(res_ids):
     url = 'https://developers.zomato.com/api/v2.1/restaurant'
     headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
-    params = {'res_id': res_id}
 
-    response = requests.get(url, headers=headers, params=params)
+    restaurants = []
 
-    if response:
-        body = response.json()
-        return view_models.Restaurant(body['name'],
-        body['location']['address'],
-        body['photos'][0]['photo']['url'],
-        body['timings'],
-        body['price_range'],
-        body['user_rating']['aggregate_rating'],
-        body['menu_url'])
+    session = FuturesSession()
+    futures = []
+
+    for res_id in res_ids:
+        params = {'res_id': res_id}
+        futures.append(session.get(url, headers=headers, params=params))
+
+    for future in cf.as_completed(futures):
+        response = future.result()
+
+        if response:
+            body = response.json()
+            try:
+                restaurants.append(view_models.Restaurant(body['name'],
+                body['location']['address'],
+                body['photos'][0]['photo']['url'],
+                body['timings'],
+                body['price_range'],
+                body['user_rating']['aggregate_rating'],
+                body['menu_url']))
+            except KeyError:
+                restaurants.append(view_models.Restaurant(body['name'],
+                body['location']['address'],
+                '', # randomly zomato just doesn't have photos
+                body['timings'],
+                body['price_range'],
+                body['user_rating']['aggregate_rating'],
+                body['menu_url']))
     
-    return None
+    return restaurants
 
 def list_to_string(lst):
     if not lst:

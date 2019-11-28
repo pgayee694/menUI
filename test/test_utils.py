@@ -68,9 +68,9 @@ class UtilsTest(unittest.TestCase):
         cu_ids = list(utils.find_cuisines(loc_id).values())[0:2]
         cat_ids = list(utils.find_categories().values())[0:2]
 
-        res_id = utils.search_restaurants(loc_id, 'shucks', cat_ids, cu_ids, establ_ids)[0]
+        res_ids = utils.search_restaurants(loc_id, 'shucks', cat_ids, cu_ids, establ_ids)
 
-        actual = utils.get_restaurant_details(res_id)
+        actual = utils.get_restaurant_details(res_ids)
 
         self.assertIsNotNone(actual)
 
