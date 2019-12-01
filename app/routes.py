@@ -5,7 +5,7 @@ import time
 import sys
 from app.forms import LoginForm, SignInForm
 from .models import db, User, Location
-from flask_login import login_user, current_user
+from flask_login import login_user, current_user, logout_user
 
 @app.route('/')
 def hello():
@@ -78,3 +78,8 @@ def signup():
 
         return redirect('/login/')
     return render_template('signup.html', title='Sign Up', form=form_sign_up)
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    logout_user()
+    return redirect('/')
