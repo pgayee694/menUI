@@ -63,6 +63,8 @@ def login():
 @app.route('/signup/', methods=['GET', 'POST'])
 def signup():
     form_sign_up = SignInForm()
+    if current_user.is_authenticated:
+        return redirect('/')
     if form_sign_up.validate_on_submit() and form_sign_up.password.data == form_sign_up.password2.data:
         #before creating a location query database and see if it exists already
         db.create_all()
