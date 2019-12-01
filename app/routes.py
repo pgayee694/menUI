@@ -1,6 +1,8 @@
 from app import app, utils, view_models, models, db
 from flask import Flask, render_template, flash, redirect, session, request
 import requests
+import time
+import sys
 from app.forms import LoginForm, SignInForm
 from .models import db, User, Location
 from flask_login import login_user, current_user
@@ -14,9 +16,12 @@ def menu_search():
     id = utils.find_loc_id('Omaha', 'Nebraska') #TODO: change this to get the current logged in user's location
     session['loc_id'] = id
     categories = utils.find_categories()
+    session['categories'] = categories
     cuisines = utils.find_cuisines(id)
+    session['cuisines'] = cuisines
     establishments = utils.find_establishments(id)
-    return render_template('menu-search.html', title='Menu Search', categories=categories, cuisines=cuisines, establishments=establishments)
+    session['establs'] = establishments
+    return render_template('menu-search.html', title='Menu Search', categories=categories.keys(), cuisines=cuisines.keys(), establishments=establishments.keys())
 
 @app.route('/menu-browse', methods=['POST'])
 def menu_browse():
@@ -26,24 +31,18 @@ def menu_browse():
     cuisine = request.form.getlist('cuisine')
     establishment = request.form.getlist('establishment')
     
-    cat_ids = None
-    cu_ids = None
-    establ_ids = None
-    if category:
-        cat_ids = utils.get_category_id(category)
-    if cuisine:
-        cu_ids = utils.get_cuisine_id(loc_id, cuisine)
-    if establishment:
-        establ_ids = utils.get_establishment_id(loc_id, establishment)
+    cats = session['categories']
+    cus = session['cuisines']
+    establs = session['establs']
 
-    res_ids = utils.search_restaurants(loc_id, cat_ids, cu_ids, establ_ids)
+    cat_ids = [cats[cat] for cat in category]
+    cu_ids = [cus[c] for c in cuisine]
+    establ_ids = [establs[establ] for establ in establishment]
 
-    restaurants = []
-    for res_id in res_ids:
-        restaurants.append(utils.get_restaurant_details(res_id))
+    res_ids = utils.search_restaurants(loc_id, res_name, cat_ids, cu_ids, establ_ids)
+    restaurants = utils.get_restaurant_details(res_ids)
 
-    valid_restaurants = [restaurant for restaurant in restaurants if res_name in restaurant.name]
-    return render_template('menu-browse.html', restaurants=valid_restaurants, isAdd=True)
+    return render_template('menu-browse.html', restaurants=restaurants, isAdd=True)
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -67,7 +66,7 @@ def signup():
     if form_sign_up.validate_on_submit() and form_sign_up.password.data == form_sign_up.password2.data:
         #before creating a location query database and see if it exists already
         db.create_all()
-        #CURRENTLY THIS IS DOING NO VALIDATION AND ALWAYS ADDING USERS TO THE DATABASE
+        #TODO: CURRENTLY THIS IS DOING NO VALIDATION AND ALWAYS ADDING USERS TO THE DATABASE
         loc = models.Location(city=form_sign_up.city.data, region=form_sign_up.region.data, country='placeholder')
         db.session.add(loc)
         db.session.commit()

@@ -34,14 +34,6 @@ class UtilsTest(unittest.TestCase):
 
         self.assertIsNotNone(actual)
         self.assertGreater(len(actual), 0)
-    
-    def test_get_category_id(self):
-        category = [utils.find_categories()[0]]
-
-        actual = utils.get_category_id(category)
-
-        self.assertIsNotNone(actual)
-        self.assertEqual(len(actual), 1)
 
     def test_find_cuisines(self):
         loc_id = utils.find_loc_id('Omaha', 'Nebraska')
@@ -50,16 +42,6 @@ class UtilsTest(unittest.TestCase):
 
         self.assertIsNotNone(actual)
         self.assertGreater(len(actual), 0)
-    
-    def test_get_cuisine_id(self):
-        loc_id = utils.find_loc_id('Omaha', 'Nebraska')
-
-        cuisine = [utils.find_cuisines(loc_id)[0]]
-
-        actual = utils.get_cuisine_id(loc_id, cuisine)
-
-        self.assertIsNotNone(actual)
-        self.assertEqual(len(actual), 1)
 
     def test_find_establishments(self):
         loc_id = utils.find_loc_id('Omaha', 'Nebraska')
@@ -68,42 +50,27 @@ class UtilsTest(unittest.TestCase):
 
         self.assertIsNotNone(actual)
         self.assertGreater(len(actual), 0)
-
-    def test_get_establishment_id(self):
-        loc_id = utils.find_loc_id('Omaha', 'Nebraska')
-        establishment = [utils.find_establishments(loc_id)[0]]
-
-        actual = utils.get_establishment_id(loc_id, establishment)
-
-        self.assertIsNotNone(actual)
-        self.assertEqual(len(actual), 1)
     
     def test_search_restaurants(self):
         loc_id = utils.find_loc_id('Omaha', 'Nebraska')
-        establishments = utils.find_establishments(loc_id)[0:2]
-        establ_ids = utils.get_establishment_id(loc_id, establishments)
-        cuisines = utils.find_cuisines(loc_id)[0:2]
-        cu_ids = utils.get_cuisine_id(loc_id, cuisines)
-        categories = utils.find_categories()[0:2]
-        cat_ids = utils.get_category_id(categories)
+        establ_ids = list(utils.find_establishments(loc_id).values())[0:2]
+        cu_ids = list(utils.find_cuisines(loc_id).values())[0:2]
+        cat_ids = list(utils.find_categories().values())[0:2]
 
-        actual = utils.search_restaurants(loc_id, cat_ids, cu_ids, establ_ids)
+        actual = utils.search_restaurants(loc_id, 'shucks', cat_ids, cu_ids, establ_ids)
 
         self.assertIsNotNone(actual)
         self.assertGreater(len(actual), 0)
-    
+
     def test_get_restaurant_details(self):
         loc_id = utils.find_loc_id('Omaha', 'Nebraska')
-        establishments = utils.find_establishments(loc_id)[0:2]
-        establ_ids = utils.get_establishment_id(loc_id, establishments)
-        cuisines = utils.find_cuisines(loc_id)[0:2]
-        cu_ids = utils.get_cuisine_id(loc_id, cuisines)
-        categories = utils.find_categories()[0:2]
-        cat_ids = utils.get_category_id(categories)
+        establ_ids = list(utils.find_establishments(loc_id).values())[0:2]
+        cu_ids = list(utils.find_cuisines(loc_id).values())[0:2]
+        cat_ids = list(utils.find_categories().values())[0:2]
 
-        res_id = utils.search_restaurants(loc_id, cat_ids, cu_ids, establ_ids)[0]
+        res_ids = utils.search_restaurants(loc_id, 'shucks', cat_ids, cu_ids, establ_ids)
 
-        actual = utils.get_restaurant_details(res_id)
+        actual = utils.get_restaurant_details(res_ids)
 
         self.assertIsNotNone(actual)
 
@@ -113,4 +80,3 @@ class UtilsTest(unittest.TestCase):
         actual = utils.list_to_string(lst)
 
         self.assertEqual(actual, 'quack, le, doodle, doo')
-
