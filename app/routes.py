@@ -5,7 +5,7 @@ import time
 import sys
 from app.forms import LoginForm, SignInForm
 from .models import db, User, Location
-from flask_login import login_user, current_user
+from flask_login import login_user, current_user, logout_user
 
 @app.route('/')
 def hello():
@@ -13,7 +13,10 @@ def hello():
 
 @app.route('/menu-search', methods=['GET'])
 def menu_search():
-    id = utils.find_loc_id('Omaha', 'Nebraska') #TODO: change this to get the current logged in user's location
+    if not current_user.is_authenticated:
+        return redirect('/login')
+    location = models.Location.query.filter_by(id=current_user._get_current_object().location_id).first()
+    id = utils.find_loc_id(location.city, location.region)
     session['loc_id'] = id
     categories = utils.find_categories()
     session['categories'] = categories
@@ -25,6 +28,8 @@ def menu_search():
 
 @app.route('/menu-browse', methods=['POST'])
 def menu_browse():
+    if not current_user.is_authenticated:
+        return redirect('/login')
     loc_id = session['loc_id']
     res_name = request.form.get('restaurantName') or ''
     category = request.form.getlist('category')
@@ -63,6 +68,8 @@ def login():
 @app.route('/signup/', methods=['GET', 'POST'])
 def signup():
     form_sign_up = SignInForm()
+    if current_user.is_authenticated:
+        return redirect('/')
     if form_sign_up.validate_on_submit() and form_sign_up.password.data == form_sign_up.password2.data:
         #before creating a location query database and see if it exists already
         db.create_all()
@@ -78,3 +85,8 @@ def signup():
 
         return redirect('/login/')
     return render_template('signup.html', title='Sign Up', form=form_sign_up)
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    logout_user()
+    return redirect('/')

@@ -37,9 +37,12 @@
           Account
         </h1>
         <p>
+          {% if current_user.is_anonymous %}
           <a class = "accountbtn" href ="/login">Login</a>
           <a class = "accountbtn" href ="/signup">Signup</a>
-
+          {% else %}
+          <a class = "accountbtn" href="/logout">Logout</a>
+          {% endif %}
         </p>
       </div>
     </div>
