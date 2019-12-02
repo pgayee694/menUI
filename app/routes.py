@@ -13,7 +13,10 @@ def hello():
 
 @app.route('/menu-search', methods=['GET'])
 def menu_search():
-    id = utils.find_loc_id('Omaha', 'Nebraska') #TODO: change this to get the current logged in user's location
+    if not current_user.is_authenticated:
+        return redirect('/login')
+    location = models.Location.query.filter_by(id=current_user._get_current_object().location_id).first()
+    id = utils.find_loc_id(location.city, location.region)
     session['loc_id'] = id
     categories = utils.find_categories()
     session['categories'] = categories
@@ -25,6 +28,8 @@ def menu_search():
 
 @app.route('/menu-browse', methods=['POST'])
 def menu_browse():
+    if not current_user.is_authenticated:
+        return redirect('/login')
     loc_id = session['loc_id']
     res_name = request.form.get('restaurantName') or ''
     category = request.form.getlist('category')
