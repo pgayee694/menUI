@@ -2,7 +2,7 @@ import requests
 from concurrent.futures import ThreadPoolExecutor
 import concurrent.futures as cf
 from requests_futures.sessions import FuturesSession
-from app import app, view_models
+from app import app, view_models, models
 
 def find_loc_id(city, region):
     """
@@ -150,3 +150,31 @@ def list_to_string(lst):
             res += c
 
     return res
+	
+def get_user_restaurants(userId):
+    """
+    Queries our database for all the restaurants a user has
+    """
+    
+    j = join(Restaurant, UserRestaurant,
+            Restaurant.c.id = UserRestaurant.c.restaurant_id)
+    
+    restaurants = select([Restaurant]).select_from(j)
+    
+def find_restaurant_id_by_name(restaurantName):
+    """
+    Queries Zomato API for a restaurant id
+    """
+
+    url = 'https://developers.zomato.com/api/v2.1/search'
+    headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
+    params = {'entity_id': restaurantName}
+    response = requests.get(url, headers=headers, params=params)
+    
+    id = -1
+
+    if response:
+        body = response.json()
+        id = body['restaurants']['restaurant']['R']['res_id']
+
+    return id

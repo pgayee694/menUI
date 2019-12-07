@@ -48,6 +48,16 @@ def menu_browse():
     restaurants = utils.get_restaurant_details(res_ids)
 
     return render_template('menu-browse.html', restaurants=restaurants, isAdd=True)
+	
+@app.route('/menu-browse', methods=['POST'])
+def user_menu_browse():
+    restaurantNames = util.get_user_restaurants(session['user_id'])
+    
+    restaurants = []
+    for res in restaurantNames:
+        restaurants.append(utils.get_restaurant_details(utils.find_restaurant_id_by_name(res.name)))
+        
+    return render_template('menu-browse.html', restaurants=restaurants, isAdd=False)
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
