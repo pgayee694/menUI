@@ -9,27 +9,25 @@
 
         {% for restaurant in restaurants %}
 		<div class="restaurant-item">
-			<a href="{{ restaurant.link }}">
+			<div class="info">
+				<p>Address: {{ restaurant.address }}</p>
+				<p>Open: {{ restaurant.timing }}</p>
+				<p>Average Price: {{ restaurant.priceRange }}</p>
+				<p>Rating: {{ restaurant.rating }}</p>
+			</div>
+		
+			<div class="main">
+				<p class="title">{{ restaurant.name }}</p>
+				<img src="{{ restaurant.photo }}" width="100px" height="100px">
+				<br/>
+				<button class="view" onclick="window.location.href = '{{ restaurant.link }}'">View</button>
+			</div>
 			
-				<div class="info">
-					<p>Address: {{ restaurant.address }}</p>
-					<p>Open: {{ restaurant.timing }}</p>
-					<p>Average Price: {{ restaurant.priceRange }}</p>
-					<p>Rating: {{ restaurant.rating }}</p>
-				</div>
-			
-				<div class="main">
-					<p class="title">{{ restaurant.name }}</p>
-					<img src="{{ restaurant.photo }}" width="100px" height="100px">
-				</div>
-				
-				<div class="add">
-					{% if isAdd %}
-					<button>Add {{ restaurant.name }}</button>
-					{% endif %}
-				</div>
-				
-			</a>
+			<div class="add">
+				{% if isAdd %}
+				<button>Add</button>
+				{% endif %}
+			</div>
 		</div>
         {% endfor %}
     </body>

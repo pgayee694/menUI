@@ -9,7 +9,8 @@
 	background-color: #fbf2ff;
 	margin-bottom: 25px;
 	margin-left: 10%;
-	width: 600px;
+	width: 600px;overflow: auto;
+	
 }
 
 .main {
@@ -24,17 +25,17 @@
 	width: 300px;
 	padding-left: 0px;
 	padding-right: 15px;
-	padding-bottom: 25px;
 	padding-top: 5px;
-}
-
-.add {
-	margin-bottom: 40px;
 	
 }
 
 .title {
 	font-weight: bold;
+}
+
+.view {
+	float: left;
+	margin-left: 3px;
 }
 
 img {
@@ -61,4 +62,5 @@ button {
 	padding-top: 5px;
 	padding-bottom: 5px;
 	margin-left: 15px;
+	margin-bottom: 7px;
 }
