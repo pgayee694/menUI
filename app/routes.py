@@ -49,7 +49,7 @@ def menu_browse():
 
     return render_template('menu-browse.html', restaurants=restaurants, isAdd=True)
 	
-@app.route('/menu-browse', methods=['POST'])
+@app.route('/menu-browse', methods=['GET', 'POST'])
 def user_menu_browse():
     restaurantNames = util.get_user_restaurants(session['user_id'])
     

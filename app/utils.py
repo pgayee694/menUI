@@ -152,15 +152,14 @@ def list_to_string(lst):
     return res
 	
 def get_user_restaurants(userId):
-    """
+	"""
     Queries our database for all the restaurants a user has
     """
-    
-    j = join(Restaurant, UserRestaurant,
-            Restaurant.c.id = UserRestaurant.c.restaurant_id)
-    
-    restaurants = select([Restaurant]).select_from(j)
-    
+	
+	restaurants = models.Restaurant.query().join(Restaurant,id==UserRestaurant.restaurant_id).order_by(Restaurant.name).all()
+	
+	return restaurants
+
 def find_restaurant_id_by_name(restaurantName):
     """
     Queries Zomato API for a restaurant id
