@@ -3,7 +3,7 @@ from flask import Flask, render_template, flash, redirect, session, request
 import requests
 import time
 import sys
-from app.forms import LoginForm, SignInForm
+from app.forms import LoginForm, SignInForm, FriendForm
 from .models import db, User, Location
 from flask_login import login_user, current_user, logout_user
 
@@ -54,6 +54,7 @@ def login():
     form_log_in = LoginForm()
     if current_user.is_authenticated:
         return redirect('/')
+
     if form_log_in.validate_on_submit():
         flash('Login requested for user {}, remember_me={}'.format(
             form_log_in.username.data, form_log_in.remember_me.data))
@@ -61,8 +62,10 @@ def login():
         if user is None or not user.check_password(form_log_in.password.data):
             flash('invalid username or password')
             return redirect('/login/')
+
         login_user(user, remember=form_log_in.remember_me.data)
         return redirect('/')
+
     return render_template('login.html', title='Log In', form=form_log_in)
 
 @app.route('/signup/', methods=['GET', 'POST'])
@@ -70,6 +73,7 @@ def signup():
     form_sign_up = SignInForm()
     if current_user.is_authenticated:
         return redirect('/')
+
     if form_sign_up.validate_on_submit() and form_sign_up.password.data == form_sign_up.password2.data:
         #before creating a location query database and see if it exists already
         db.create_all()
@@ -82,9 +86,34 @@ def signup():
         user.set_password(form_sign_up.password.data)
         db.session.add(user)
         db.session.commit()
-
         return redirect('/login/')
+
     return render_template('signup.html', title='Sign Up', form=form_sign_up)
+
+@app.route('/friends/', methods=['GET', 'POST'])
+def friends():
+    form_friends = FriendForm()
+    if not current_user.is_authenticated:
+        return redirect('/login/')
+
+    if not form_friends.username.data:
+        return render_template('friends.html', title='Connect With Friends', form=form_friends)
+
+    if form_friends.username.data == current_user.username:
+        # user tried to add themself as a friend
+        flash('Feeling desperate?')
+        return render_template('friends.html', title='Connect With Friends', form=form_friends)
+
+    if not utils.find_user_by_username(form_friends.username.data) and form_friends.username.data:
+        # This message is currently displayed be defualt, it shouldn't be.
+        flash('User not found.')
+        return render_template('friends.html', title='Connect With Friends', form=form_friends)
+
+    #TODO see if the friend group already exists
+
+    #TODO actually add friend group to db
+    flash('Friend added successfully!')
+    return render_template('friends.html', title='Connect With Friends', form=form_friends)
 
 @app.route('/logout', methods=['GET'])
 def logout():

@@ -15,3 +15,8 @@ class SignInForm(FlaskForm):
     city = StringField('City', validators=[DataRequired(), Length(max=64)])
     region = StringField('Region', validators=[DataRequired(), Length(max=64)])
     submit2 = SubmitField('Sign Up')
+
+class FriendForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    submit3 = SubmitField('Find a Friend')
+    submit3 = SubmitField('Find a Friend')
