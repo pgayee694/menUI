@@ -2,7 +2,7 @@ import requests
 from concurrent.futures import ThreadPoolExecutor
 import concurrent.futures as cf
 from requests_futures.sessions import FuturesSession
-from app import app, view_models
+from app import app, view_models, models
 
 def find_loc_id(city, region):
     """
@@ -150,3 +150,7 @@ def list_to_string(lst):
             res += c
 
     return res
+
+#returns the first user with the given username, None if the user isn't found.
+def find_user_by_username(username_in):
+    return models.User.query.filter_by(username=username_in).first()
