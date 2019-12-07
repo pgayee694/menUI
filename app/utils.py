@@ -155,10 +155,11 @@ def get_user_restaurants(userId):
 	"""
     Queries our database for all the restaurants a user has
     """
+	restaurants = models.Restaurant.query.join(Restaurant,id==UserRestaurant.restaurant_id).filter_by(UserRestaurant.user_id==userId).order_by(Restaurant.name).all()
+
+	restaurant
 	
-	restaurants = models.Restaurant.query().join(Restaurant,id==UserRestaurant.restaurant_id).order_by(Restaurant.name).all()
-	
-	return restaurants
+	return restaurantNames
 
 def find_restaurant_id_by_name(restaurantName):
     """
