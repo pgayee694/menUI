@@ -54,15 +54,16 @@ def login():
     form_log_in = LoginForm()
     if current_user.is_authenticated:
         return redirect('/')
+
     if form_log_in.validate_on_submit():
-        flash('Login requested for user {}, remember_me={}'.format(
-            form_log_in.username.data, form_log_in.remember_me.data))
         user = utils.find_user_by_username(form_log_in.username.data)
         if user is None or not user.check_password(form_log_in.password.data):
-            flash('invalid username or password')
-            return render_template('login.html', title='Log In', form=form_log_in, invalid=True)
+            flash('Invalid username or password, try again.')
+            return render_template('login.html', title='Log In', form=form_log_in)
+
         login_user(user, remember=form_log_in.remember_me.data)
         return redirect('/')
+
     return render_template('login.html', title='Log In', form=form_log_in)
 
 @app.route('/signup/', methods=['GET', 'POST'])
@@ -70,23 +71,28 @@ def signup():
     form_sign_up = SignInForm()
     if current_user.is_authenticated:
         return redirect('/')
+
     if utils.find_user_by_username(form_sign_up.username.data):
-        return render_template('signup.html', title='Sign Up', form=form_sign_up, user_exists=True)
+        flash('That username is taken, please try again.')
+        return render_template('signup.html', title='Sign Up', form=form_sign_up)
+
     if form_sign_up.password.data != form_sign_up.password2.data:
-        return render_template('signup.html', title='Sign Up', form=form_sign_up, no_match=True)
+        flash("Your passwords didn't match, please try again.")
+        return render_template('signup.html', title='Sign Up', form=form_sign_up)
+
     if form_sign_up.validate_on_submit() and form_sign_up.password.data == form_sign_up.password2.data:
         db.create_all()
         loc = models.Location(city=form_sign_up.city.data, region=form_sign_up.region.data, country='placeholder')
         if not utils.find_loc_id(form_sign_up.city.data, form_sign_up.region.data):
             db.session.add(loc)
             db.session.commit()
-        flash('Sign up requested for user{}'.format(form_sign_up.username.data))
+
         user = models.User(username=form_sign_up.username.data, location_id=loc.id)
         user.set_password(form_sign_up.password.data)
         db.session.add(user)
         db.session.commit()
-
         return redirect('/login/')
+
     return render_template('signup.html', title='Sign Up', form=form_sign_up)
 
 @app.route('/logout', methods=['GET'])
