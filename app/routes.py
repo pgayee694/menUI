@@ -70,14 +70,14 @@ def signup():
     form_sign_up = SignInForm()
     if current_user.is_authenticated:
         return redirect('/')
-    if not(utils.find_user_by_username(form_sign_up.username.data) is None):
+    if utils.find_user_by_username(form_sign_up.username.data):
         return render_template('signup.html', title='Sign Up', form=form_sign_up, user_exists=True)
-    if not(form_sign_up.password.data == form_sign_up.password2.data):
+    if form_sign_up.password.data != form_sign_up.password2.data:
         return render_template('signup.html', title='Sign Up', form=form_sign_up, no_match=True)
     if form_sign_up.validate_on_submit() and form_sign_up.password.data == form_sign_up.password2.data:
         db.create_all()
         loc = models.Location(city=form_sign_up.city.data, region=form_sign_up.region.data, country='placeholder')
-        if utils.find_loc_id(form_sign_up.city.data, form_sign_up.region.data) is None:
+        if not utils.find_loc_id(form_sign_up.city.data, form_sign_up.region.data):
             db.session.add(loc)
             db.session.commit()
         flash('Sign up requested for user{}'.format(form_sign_up.username.data))
