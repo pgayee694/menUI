@@ -26,7 +26,7 @@ def menu_search():
     session['establs'] = establishments
     return render_template('menu-search.html', title='Menu Search', categories=categories.keys(), cuisines=cuisines.keys(), establishments=establishments.keys())
 
-@app.route('/menu-browse', methods=['POST'])
+@app.route('/menu-browsehi', methods=['POST'])
 def menu_browse():
     if not current_user.is_authenticated:
         return redirect('/login')
@@ -51,8 +51,8 @@ def menu_browse():
 	
 @app.route('/menu-browse', methods=['GET', 'POST'])
 def user_menu_browse():
-    restaurantNames = util.get_user_restaurants(session['user_id'])
-    
+    # restaurantNames = util.get_user_restaurants(session['user_id'])
+    restaurantNames = utils.get_user_restaurants('bbuff')
     restaurants = []
     for res in restaurantNames:
         restaurants.append(utils.get_restaurant_details(utils.find_restaurant_id_by_name(res.name)))
