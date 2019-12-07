@@ -60,7 +60,7 @@ def login():
         user = models.User.query.filter_by(username=form_log_in.username.data).first()
         if user is None or not user.check_password(form_log_in.password.data):
             flash('invalid username or password')
-            return redirect('/login/')
+            return render_template('login.html', title='Log In', form=form_log_in, invalid=True)
         login_user(user, remember=form_log_in.remember_me.data)
         return redirect('/')
     return render_template('login.html', title='Log In', form=form_log_in)
@@ -70,6 +70,11 @@ def signup():
     form_sign_up = SignInForm()
     if current_user.is_authenticated:
         return redirect('/')
+    user = models.User.query.filter_by(username=form_sign_up.username.data).first()
+    if not(user is None):
+        return render_template('signup.html', title='Sign Up', form=form_sign_up, user_exists=True)
+    if not(form_sign_up.password.data == form_sign_up.password2.data):
+        return render_template('signup.html', title='Sign Up', form=form_sign_up, no_match=True)
     if form_sign_up.validate_on_submit() and form_sign_up.password.data == form_sign_up.password2.data:
         #before creating a location query database and see if it exists already
         db.create_all()

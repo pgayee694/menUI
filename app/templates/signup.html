@@ -6,6 +6,12 @@
  <title>Sign up</title>
  <body>
 	<div class="mainContainer">
+		{% if user_exists %}
+ 		<h2 class="error"> That username is taken, please try again.</h2>
+		{% endif %}
+		{% if no_match %}
+ 		<h2 class="error"> Your passwords didn't match, please try again.</h2>
+		{% endif %}
 		<h1 class = "bar">Sign up!</h1>
 		{% block signup %}
 		(Maximum size of 32 characters for all fields)<br>
