@@ -51,10 +51,11 @@ def menu_browse():
 	
 @app.route('/menu-compare', methods=['GET'])
 def menu_compare():
-	usernames = ['one','two','friend 3','friend 4']
-	title = 'Compare with Friends List'
 	
-	return render_template('menu-compare.html', title=title, usernames=usernames)
+	users = []
+	title = 'Compare with Friends Lists'
+	
+	return render_template('menu-compare.html', title=title, users=users)
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
