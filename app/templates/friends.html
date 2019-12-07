@@ -7,12 +7,12 @@
 <body>
 <button class="btn"><i class="fa fa-home"></i></button>
 <div class = "mainContainer">
-<h1 class = "bar">Find a Friend!</h1>
+<h1 class = "bar">Connect With Friends!</h1>
 {% block friend %}
 <!-- Action URL will need to be updated once the script to handle user info is written-->
 <div class = "loginContainer">
 {% for message in get_flashed_messages() %}
-    <h2>{{ message }}<br/></h2>
+    <p>{{ message }}<br/></p>
 {% endfor %}
 <form action="" method="POST" id="Find a Friend" novalidate>
     {{ form.hidden_tag() }}

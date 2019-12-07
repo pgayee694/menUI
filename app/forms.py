@@ -18,5 +18,4 @@ class SignInForm(FlaskForm):
 
 class FriendForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
-    submit3 = SubmitField('Find a Friend')
-    submit3 = SubmitField('Find a Friend')
+    submit3 = SubmitField('Add Friend')

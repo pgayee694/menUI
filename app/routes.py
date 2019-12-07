@@ -109,9 +109,18 @@ def friends():
         flash('User not found.')
         return render_template('friends.html', title='Connect With Friends', form=form_friends)
 
+    friend1 = utils.find_user_by_username(current_user.username)
+    friend2 = utils.find_user_by_username(form_friends.username.data)
     #TODO see if the friend group already exists
-
+    if utils.find_friendship(friend1.id, friend2.id):
+        flash("You already have that friend.")
+        return render_template('friends.html', title='Connect With Friends', form=form_friends)
     #TODO actually add friend group to db
+
+    friendship = models.Friends(friend1_id=friend1.id, friend2_id=friend2.id)
+    db.create_all()
+    db.session.add(friendship)
+    db.session.commit()
     flash('Friend added successfully!')
     return render_template('friends.html', title='Connect With Friends', form=form_friends)
 
