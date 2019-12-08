@@ -53,12 +53,21 @@ def menu_browse():
 def user_menu_browse():
 	
     restaurantNames = utils.get_user_restaurants(current_user.id)
+    loc_id = 946
     restaurants = []
-    for res in restaurantNames:
-        restaurants.append(utils.get_restaurant_details(utils.find_restaurant_id_by_name(res.name)))
-        
-    return render_template('menu-browse.html', restaurants=restaurants, isAdd=False)
+	
+    for restaurantName in restaurantNames:
+        restaurants.append(utils.get_restaurant_details_by_name(restaurantName, loc_id))
+    """
+    restaurantIds = []
 
+    for res in restaurantNames:
+        restaurantIds.append(utils.find_restaurant_id_by_name(res))
+		
+    return render_template('menu-browse.html', restaurants=utils.get_restaurant_details(restaurantIds), isAdd=False)
+    """
+    return render_template('menu-browse.html', restaurants=restaurants, isAdd=False)
+	
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     form_log_in = LoginForm()

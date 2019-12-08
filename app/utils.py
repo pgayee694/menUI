@@ -155,26 +155,57 @@ def get_user_restaurants(userId):
 	"""
     Queries our database for all the restaurants a user has
     """
-	restaurants = models.Restaurant.query.join(Restaurant,id==UserRestaurant.restaurant_id).filter_by(UserRestaurant.user_id==userId).order_by(Restaurant.name).all()
-
-	restaurant
+	# restaurants = models.Restaurant.query(Restaurant).join(Restaurant.id==UserRestaurant.restaurant_id).filter_by(UserRestaurant.user_id==userId).all()
 	
+	restaurantNames = []
+	userRestaurants = models.UserRestaurant.query.filter_by(user_id=userId).all()
+	
+	for userRestaurant in userRestaurants:
+		restaurant = models.Restaurant.query.filter_by(id=userRestaurant.restaurant_id).first()
+		
+		if not restaurant.name in restaurantNames:
+			restaurantNames.append(restaurant.name)
+			print (restaurant.name)
+		
 	return restaurantNames
 
-def find_restaurant_id_by_name(restaurantName):
+def get_restaurant_details_by_name(restaurantName, locId):
     """
     Queries Zomato API for a restaurant id
     """
 
     url = 'https://developers.zomato.com/api/v2.1/search'
     headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
-    params = {'entity_id': restaurantName}
+    params = {'entity_id': locId, 'q': restaurantName }
     response = requests.get(url, headers=headers, params=params)
     
-    id = -1
-
+    restaurants = []
+	
     if response:
         body = response.json()
-        id = body['restaurants']['restaurant']['R']['res_id']
+        print(restaurantName)
+        for restaurant in body['restaurants']:
+            restaurantInfo = restaurant['restaurant']
+            print(restaurantInfo)
+            if restaurantName == restaurantInfo['name']:
+                try:
+                    restaurants.append(view_models.Restaurant(restaurantInfo['name'],
+                    restaurantInfo['location']['address'],
+                    restaurantInfo['photos'][0]['photo']['url'],
+                    restaurantInfo['timings'],
+                    restaurantInfo['price_range'],
+                    restaurantInfo['user_rating']['aggregate_rating'],
+                    restaurantInfo['menu_url']))
+                except KeyError:
+                    restaurants.append(view_models.Restaurant(restaurantInfo['name'],
+                    restaurantInfo['location']['address'],
+                    '', # randomly zomato just doesn't have photos
+                    restaurantInfo['timings'],
+                    restaurantInfo['price_range'],
+                    restaurantInfo['user_rating']['aggregate_rating'],
+                    restaurantInfo['menu_url']))
+                break;
+        else:
+            restaurants.append(None)
 
-    return id
+    return restaurants[0]
