@@ -1,33 +1,3 @@
-/*! HTML5 Boilerplate v7.2.0 | MIT License | https://html5boilerplate.com/ */
-
-/* main.css 2.0.0 | MIT License | https://github.com/h5bp/main.css#readme */
-/*
- * What follows is the result of much research on cross-browser styling.
- * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
- * Kroc Camen, and the H5BP dev community and team.
- */
-
-/* ==========================================================================
-   Base styles: opinionated defaults
-   ========================================================================== */
-
-html {
-  color: #222;
-  font-size: 1em;
-  line-height: 1.4;
-  background-color: #d8d1de;
-
-}
-/*
- * Remove text-shadow in selection highlight:
- * https://twitter.com/miketaylr/status/12228805301
- *
- * Vendor-prefixed and regular ::selection selectors cannot be combined:
- * https://stackoverflow.com/a/16982510/7133471
- *
- * Customize the background color to match your design.
- */
-
 ::-moz-selection {
   background: #b3d4fc;
   text-shadow: none;
@@ -36,6 +6,12 @@ html {
 ::selection {
   background: #b3d4fc;
   text-shadow: none;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 .btn {
@@ -57,14 +33,11 @@ html {
   text-align: center;
   font-family: 'Lexend Deca';
   font-size: 32px;
-
-
+  padding-left: 10px;
+  padding-right: 10px;
 }
-/*
-========================================================================================================================
-Divs: Main container is for the main section of the page, with a lighter background for text.
-========================================================================================================================
- */
+
+
 .mainContainer {
   background-color: #fbf2ff;
   padding: 0;
@@ -78,6 +51,7 @@ Divs: Main container is for the main section of the page, with a lighter backgro
   margin-right: auto;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
 }
+
 .column {
   float: left;
   width: 25%;
@@ -85,17 +59,10 @@ Divs: Main container is for the main section of the page, with a lighter backgro
   margin-top:10%;
 }
 
-/* Remove extra left and right margins, due to padding in columns */
-.row {margin: 0 -5px;
-
+.row {
+	margin: 0 -5px;
 }
 
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
 .homeContainer {
   background-color: #fbf2ff;
   padding: 0;
@@ -103,15 +70,9 @@ Divs: Main container is for the main section of the page, with a lighter backgro
   margin: auto;
   text-align: center;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
+  overflow: auto;
 }
-#browseimg {
-  height:200px;
-  width:200px;
-}
-#searchimg{
-  height:200px;
-  width:200px;
-}
+
 .accountbtn{
   font-family: 'Lexend Deca';
   margin-top: 5%;
@@ -124,12 +85,15 @@ Divs: Main container is for the main section of the page, with a lighter backgro
   cursor: pointer;
   color: #ffffff;
   font-family: 'Lexend Deca';
-  font-size: 30px;
-  padding: 9px 30px;
+  font-size: 20px;
   text-align: center;
   text-decoration: none;
   text-shadow: 0px -1px 0px #7a2a1d;
+  width: 40%;
+  height: 30%;
+  overflow: auto;
 }
+
 .desc{
     font-family: 'Lexend Deca';
 }
@@ -139,12 +103,8 @@ Divs: Main container is for the main section of the page, with a lighter backgro
   padding: 10px;
   margin: auto;
   text-align: center;
-
-
 }
-/*
-========================================================================================================================
- */
+
 .loginForms{
   border: #873ebb;
   border-width: 1px;
@@ -154,9 +114,16 @@ Divs: Main container is for the main section of the page, with a lighter backgro
   margin-top: 1%;
 }
 
-label {
-  font-family: 'Lexend Deca';
+#browseimg {
+  height:40%;
+  width:40%;
 }
+
+#searchimg{
+  height:40%;
+  width:40%;
+}
+
 #username {
   font-family: 'Lexend Deca';
   margin-top: 5%;
@@ -174,6 +141,7 @@ label {
   text-decoration: none;
   text-shadow: 0px -1px 0px #7a2a1d;
 }
+
 #password {
   font-family: 'Lexend Deca';
   margin-top: 5%;
@@ -191,6 +159,7 @@ label {
   text-decoration: none;
   text-shadow: 0px -1px 0px #7a2a1d;
 }
+
 #remember_me {
   font-family: 'Lexend Deca';
   margin-top: 5%;
@@ -208,6 +177,7 @@ label {
   text-decoration: none;
   text-shadow: 0px -1px 0px #7a2a1d;
 }
+
 #submit1 {
   font-family: 'Lexend Deca';
   margin-top: 5%;
@@ -239,3 +209,18 @@ a {
   text-decoration: underline;
 }
 
+label {
+  font-family: 'Lexend Deca';
+}
+
+html {
+  color: #222;
+  font-size: 1em;
+  line-height: 1.4;
+  background-color: #d8d1de;
+}
+
+p {
+	padding-left: 10px;
+	padding-right: 10px;
+}

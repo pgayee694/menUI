@@ -150,6 +150,7 @@ def list_to_string(lst):
             res += c
 
     return res
+<<<<<<< HEAD
 	
 def get_user_restaurants(userId):
 	"""
@@ -209,3 +210,9 @@ def get_restaurant_details_by_name(restaurantName, locId):
             restaurants.append(None)
 
     return restaurants[0]
+=======
+
+#returns the first user with the given username, None if the user isn't found.
+def find_user_by_username(username_in):
+    return models.User.query.filter_by(username=username_in).first()
+>>>>>>> master

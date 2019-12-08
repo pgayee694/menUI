@@ -9,6 +9,10 @@
 		<h1 class = "bar">Sign up!</h1>
 		{% block signup %}
 		(Maximum size of 32 characters for all fields)<br>
+		{% for message in get_flashed_messages() %}
+   			 <p class="error">{{ message }}<br/></p>
+		{% endfor %}
+		<p class="message">(Maximum size of 32 characters for all fields)</p>
     <!-- Action URL will need to be updated once the script to handle user info is written-->
 		<div class="loginContainer">
 			<form action = "" method = "POST" id = "signIn" novalidate>
