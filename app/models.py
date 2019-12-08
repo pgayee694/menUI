@@ -23,6 +23,9 @@ class User(UserMixin, db.Model):
     def check_password(self, password_passed):
         return check_password_hash(self.password, password_passed)
 
+    def check_username(self, user_passed):
+        return user_passed == self.username
+
 class Restaurant(db.Model):
     __tablename__ = 'restaurant'
 

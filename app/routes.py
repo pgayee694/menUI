@@ -48,6 +48,14 @@ def menu_browse():
     restaurants = utils.get_restaurant_details(res_ids)
 
     return render_template('menu-browse.html', restaurants=restaurants, isAdd=True)
+	
+@app.route('/menu-compare', methods=['GET'])
+def menu_compare():
+	
+	users = []
+	title = 'Compare with Friends Lists'
+	
+	return render_template('menu-compare.html', title=title, users=users)
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -56,12 +64,11 @@ def login():
         return redirect('/')
 
     if form_log_in.validate_on_submit():
-        flash('Login requested for user {}, remember_me={}'.format(
-            form_log_in.username.data, form_log_in.remember_me.data))
-        user = models.User.query.filter_by(username=form_log_in.username.data).first()
+        user = utils.find_user_by_username(form_log_in.username.data)
         if user is None or not user.check_password(form_log_in.password.data):
-            flash('invalid username or password')
-            return redirect('/login/')
+            flash('Invalid username or password, try again.')
+            return render_template('login.html', title='Log In', form=form_log_in)
+
 
         login_user(user, remember=form_log_in.remember_me.data)
         return redirect('/')
@@ -74,13 +81,21 @@ def signup():
     if current_user.is_authenticated:
         return redirect('/')
 
+    if utils.find_user_by_username(form_sign_up.username.data):
+        flash('That username is taken, please try again.')
+        return render_template('signup.html', title='Sign Up', form=form_sign_up)
+
+    if form_sign_up.password.data != form_sign_up.password2.data:
+        flash("Your passwords didn't match, please try again.")
+        return render_template('signup.html', title='Sign Up', form=form_sign_up)
+
     if form_sign_up.validate_on_submit() and form_sign_up.password.data == form_sign_up.password2.data:
-        #before creating a location query database and see if it exists already
-        #TODO: CURRENTLY THIS IS DOING NO VALIDATION AND ALWAYS ADDING USERS TO THE DATABASE
+        db.create_all()
         loc = models.Location(city=form_sign_up.city.data, region=form_sign_up.region.data, country='placeholder')
-        db.session.add(loc)
-        db.session.commit()
-        flash('Sign up requested for user{}'.format(form_sign_up.username.data))
+        if not utils.find_loc_id(form_sign_up.city.data, form_sign_up.region.data):
+            db.session.add(loc)
+            db.session.commit()
+
         user = models.User(username=form_sign_up.username.data, location_id=loc.id)
         user.set_password(form_sign_up.password.data)
         db.session.add(user)

@@ -3,57 +3,26 @@
 	color: #45474a;
 }
 
-.restaurant-item {
+.form {
+	width: 30%;
+	padding-top: 20px;
+	padding-bottom: 50px;
+	padding-left: 11%;
+	float: center;
 	border: 4px solid #873ebb;
 	border-radius: 10px;
 	background-color: #fbf2ff;
-	margin-bottom: 25px;
 	margin-left: 10%;
-	width: 600px;overflow: auto;
-	
-}
-
-.main {
-	margin-left: 15px;
-	padding-right: 50px;
-	margin-top: 15px;
-	margin-left: 15px;
-}
-
-.info {
-	float: right;
-	width: 300px;
-	padding-left: 0px;
-	padding-right: 15px;
-	padding-top: 5px;
-	
-}
-
-.title {
+	margin-top: 70px;
 	font-weight: bold;
+	overflow: auto;
 }
 
-.view {
-	float: left;
-	margin-left: 3px;
+.center {
+	margin-left: 0%;
 }
 
-.compare {
-	margin-left: 10%;
-	margin-bottom: 30px;
-}
-
-img {
-	border: 2px solid #000;
-	border-radius: 10px;
-}
-
-a {
-	color: inherit;
-	text-decoration: inherit;
-}
-
-button {
+.button {
 	box-shadow: inset 0px 35px 15px -15px #873ebb;
 	background-color: #653893;
 	border: 1px solid #3d3147;
