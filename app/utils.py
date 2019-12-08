@@ -163,3 +163,6 @@ def get_friendlist(id):
 def find_user_by_username(username_in):
     return models.User.query.filter_by(username=username_in).first()
 
+def find_friendship(id1, id2):
+    return models.Friends.query.filter_by(friend1_id=id1, friend2_id=id2).first()
+
