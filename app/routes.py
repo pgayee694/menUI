@@ -76,7 +76,6 @@ def signup():
 
     if form_sign_up.validate_on_submit() and form_sign_up.password.data == form_sign_up.password2.data:
         #before creating a location query database and see if it exists already
-        db.create_all()
         #TODO: CURRENTLY THIS IS DOING NO VALIDATION AND ALWAYS ADDING USERS TO THE DATABASE
         loc = models.Location(city=form_sign_up.city.data, region=form_sign_up.region.data, country='placeholder')
         db.session.add(loc)
