@@ -1,0 +1,30 @@
+
+html {
+  color: #222;
+  font-size: 1em;
+  line-height: 1.4;
+  background-image: url('https://www.modernhoney.com/wp-content/uploads/2016/05/DSC_0127ed2.jpg');
+  background-size: 100% 100%;
+}
+
+
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+
+
+h1 {
+  font-family: 'Lexend Deca';
+  font-size: 5em;
+  color: #FFFF00;
+  shadow: 2px 2px 2px;
+}
+
+

@@ -11,6 +11,10 @@ from flask_login import login_user, current_user, logout_user
 def hello():
     return render_template('home.html', title='Home')
 
+@app.route('/borgar')
+def borgar():
+    return render_template('borgar.html', title='borgar')
+
 @app.route('/menu-search', methods=['GET'])
 def menu_search():
     if not current_user.is_authenticated:

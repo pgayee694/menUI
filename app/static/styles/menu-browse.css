@@ -47,7 +47,12 @@ a {
 	color: inherit;
 	text-decoration: inherit;
 }
-
+.btn {
+  background: #873ebb;
+  color: white;
+  border-radius: 5px;
+  border: 1px;
+}
 button {
 	box-shadow: inset 0px 35px 15px -15px #873ebb;
 	background-color: #653893;
