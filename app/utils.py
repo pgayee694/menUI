@@ -2,7 +2,7 @@ import requests
 from concurrent.futures import ThreadPoolExecutor
 import concurrent.futures as cf
 from requests_futures.sessions import FuturesSession
-from app import app, view_models
+from app import app, view_models, models
 
 def find_loc_id(city, region):
     """
@@ -150,3 +150,11 @@ def list_to_string(lst):
             res += c
 
     return res
+
+#returns a list of all the friends (as users) for a given user ID
+def get_friendlist(id):
+    friendships = models.Friends.query.filter_by(friend1_id=id).all()
+    friends = {}
+    for x in friendships:
+        friends.append(models.User.query.filter_by(id=x.friend2_id).first())
+    return friends
