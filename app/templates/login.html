@@ -10,6 +10,9 @@
 <h1 class = "bar">Login</h1>
 {% block login %}
 <!-- Action URL will need to be updated once the script to handle user info is written-->
+{% for message in get_flashed_messages() %}
+  <p class="error">{{ message }}<br/></p>
+{% endfor %}
 <div class = "loginContainer">
 <form action="" method="POST" id="logIn" novalidate>
   {{ form.hidden_tag() }}

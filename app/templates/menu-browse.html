@@ -9,6 +9,10 @@
 		<button class="btn" onclick="window.location.href = '/'"><i class="fa fa-home"></i></button>
 		<div>
         <h1 class="title">{{ title }}</h1>
+		
+		{% if isAdd %}
+		<button class="compare" onclick="window.location.href='{{ url_for('menu_compare') }}'">Compare With Friends' Restaurants</button>
+		{% endif %}
 
         {% for restaurant in restaurants %}
 		<div class="restaurant-item">
