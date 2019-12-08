@@ -48,6 +48,14 @@ def menu_browse():
     restaurants = utils.get_restaurant_details(res_ids)
 
     return render_template('menu-browse.html', restaurants=restaurants, isAdd=True)
+	
+@app.route('/menu-compare', methods=['GET'])
+def menu_compare():
+	
+	users = []
+	title = 'Compare with Friends Lists'
+	
+	return render_template('menu-compare.html', title=title, users=users)
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
