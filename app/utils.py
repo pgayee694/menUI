@@ -158,3 +158,8 @@ def get_friendlist(id):
     for x in friendships:
         friends.append(models.User.query.filter_by(id=x.friend2_id).first())
     return friends
+
+#returns the first user with the given username, None if the user isn't found.
+def find_user_by_username(username_in):
+    return models.User.query.filter_by(username=username_in).first()
+
