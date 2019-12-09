@@ -9,6 +9,11 @@
   <title>Home</title>
 </head>
 <body>
+	
+	{% for message in get_flashed_messages() %}
+		<p class="message">{{ message }}</p>
+	{% endfor %}
+		
   <div class="row">
     <div class="column">
       <div class="homeContainer">
@@ -46,6 +51,7 @@
           <a class = "accountbtn" href ="/signup">Signup</a>
           {% else %}
           <a class = "accountbtn" href="/logout">Logout</a>
+          <a class = "accountbtn" href="/friends">Add Friends</a>
           {% endif %}
         </p>
       </div>

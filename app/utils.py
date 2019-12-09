@@ -2,7 +2,7 @@ import requests
 from concurrent.futures import ThreadPoolExecutor
 import concurrent.futures as cf
 from requests_futures.sessions import FuturesSession
-from app import app, view_models, models
+from app import app, view_models, models, db
 
 def find_loc_id(city, region):
     """
@@ -211,6 +211,27 @@ def get_restaurant_details_by_name(restaurantName, locId, start):
         return get_restaurant_details_by_name(restaurantName, locId, start + 20)
 
     return restaurants[0]
+
+def add_user_restaurant(user_id, restaurant_name):
+	restaurant = add_restaurant(restaurant_name)
+	user_restaurant = models.UserRestaurant.query.filter_by(user_id=user_id, restaurant_id=restaurant).first()
+	
+	if not user_restaurant:
+		user_restaurant = models.UserRestaurant(user_id=user_id, restaurant_id=restaurant)
+		db.session.add(user_restaurant)
+		db.session.commit()
+	
+	return user_restaurant.id
+	
+def add_restaurant(restaurant_name):
+	restaurant = models.Restaurant.query.filter_by(name=restaurant_name).first()
+	
+	if not restaurant:
+		restaurant = models.Restaurant(name=restaurant_name)
+		db.session.add(restaurant)
+		db.session.commit()
+	
+	return restaurant.id
 
 def get_friendlist(id):
     """
