@@ -146,4 +146,4 @@ def menu_add():
 	utils.add_user_restaurant(current_user.id, request.form.get('add'))
 	flash("Restaurant " + request.form.get('add') + " was added!!!")
 	
-	return render_template('home.html', title='Home')
+	return redirect('/')
