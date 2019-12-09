@@ -37,7 +37,6 @@ class Restaurant(db.Model):
 
 class UserRestaurant(db.Model):
     __tablename__ = 'user_restaurant'
-
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurant.id'), nullable=False)

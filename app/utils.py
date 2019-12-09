@@ -151,9 +151,60 @@ def list_to_string(lst):
 
     return res
 
-#returns the first user with the given username, None if the user isn't found.
+def get_friendlist(id):
+    """
+    returns a list of all the friends (as users) for a given user ID
+    :param id: user id to query for friends
+    :return: list of all the users friends.
+    """
+    friendships = models.Friends.query.filter_by(friend1_id=id).all()
+    friends = []
+    for x in friendships:
+        friends.append(models.User.query.filter_by(id=x.friend2_id).first())
+    return friends
+
 def find_user_by_username(username_in):
+    """
+     returns the first user with the given username, None if the user isn't found.
+    :param username_in: username to check
+    :return: the user if it exists
+    """
     return models.User.query.filter_by(username=username_in).first()
 
 def find_friendship(id1, id2):
     return models.Friends.query.filter_by(friend1_id=id1, friend2_id=id2).first()
+
+def union_restaurants(list):
+    """
+    takes a list of users and returns a set of ids for all restaurants those users like.
+    :param list: list of users
+    :return: set of ids
+    """
+    restaurants = set()
+    for user in list:
+        tiny_restaurants = models.UserRestaurant.query.filter_by(user_id=user.id).all()
+        for restaurant in tiny_restaurants:
+            restaurants.add(restaurant)
+    restaurant_ids = set()
+    for restaurant in restaurants:
+        restaurant_ids.add(restaurant.restaurant_id)
+    # restaurants_deats = get_restaurant_details(restaurant_ids)
+    return restaurant_ids
+
+def intersection_restaurants(list):
+    """
+    takes a list of users and returns a set of ids for the intersection of all restaurants those users like.
+    :param list: list of users
+    :return: set of ids
+    """
+    restaurant_list = []
+    for user in list:
+        restaurant_ids = set()
+        tiny_restaurants = models.UserRestaurant.query.filter_by(user_id=user.id).all()
+        for restaurant in tiny_restaurants:
+            restaurant_ids.add(restaurant.restaurant_id)
+
+        restaurant_list.append(restaurant_ids)
+    intersect = set.intersection(*restaurant_list)
+    return intersect
+
