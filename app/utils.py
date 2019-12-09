@@ -224,38 +224,47 @@ def find_user_by_username(username_in):
 def find_friendship(id1, id2):
     return models.Friends.query.filter_by(friend1_id=id1, friend2_id=id2).first()
 
-def union_restaurants(list):
+def union_restaurants(lst):
     """
-    takes a list of users and returns a set of ids for all restaurants those users like.
+    takes a list of users and returns a set of names for all restaurants those users like.
     :param list: list of users
-    :return: set of ids
+    :return: set of restaurant names
     """
 
     restaurants = set()
-    for user in list:
+    for user in lst:
         tiny_restaurants = models.UserRestaurant.query.filter_by(user_id=user.id).all()
         for restaurant in tiny_restaurants:
             restaurants.add(restaurant)
-    restaurant_ids = set()
+    actual_restaurants = set()
     for restaurant in restaurants:
-        restaurant_ids.add(restaurant.restaurant_id)
+        queried_restaurants = models.Restaurant.query.filter_by(id=restaurant.restaurant_id).all()
+        for x in queried_restaurants:
+            actual_restaurants.add(x)
+    restaurant_names = set()
+    for restaurant in actual_restaurants:
+        restaurant_names.add(restaurant.name)
     # restaurants_deats = get_restaurant_details(restaurant_ids)
-    return restaurant_ids
+    return restaurant_names
 
-def intersection_restaurants(list):
+def intersection_restaurants(lst):
     """
-    takes a list of users and returns a set of ids for the intersection of all restaurants those users like.
+    takes a list of users and returns a set of names for the intersection of all restaurants those users like.
     :param list: list of users
-    :return: set of ids
+    :return: set of names
     """
 
     restaurant_list = []
-    for user in list:
-        restaurant_ids = set()
+    for user in lst:
+        restaurant_names = set()
         tiny_restaurants = models.UserRestaurant.query.filter_by(user_id=user.id).all()
-        for restaurant in tiny_restaurants:
-            restaurant_ids.add(restaurant.restaurant_id)
+        for user_restaurant in tiny_restaurants:
+            names = models.Restaurant.query.filter_by(id=user_restaurant.restaurant_id).first()
+            restaurant_names.add(names.name)
 
-        restaurant_list.append(restaurant_ids)
+        restaurant_list.append(restaurant_names)
+        print('next user')
     intersect = set.intersection(*restaurant_list)
     return intersect
+
+
