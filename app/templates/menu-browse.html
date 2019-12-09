@@ -6,7 +6,7 @@
     </head>
     <body class="code">
         <h1 class="title">{{ title }}</h1>
-
+		
         {% for restaurant in restaurants %}
 		<div class="restaurant-item">
 			<div class="info">
@@ -25,10 +25,14 @@
 			
 			<div class="add">
 				{% if isAdd %}
-				<button>Add</button>
+				<form action="{{ url_for('menu_add') }}" class="form" method="POST">
+					<input name="add" type="hidden" value="{{ restaurant.name }}">
+					<button type="submit">Add</button>
+				</form>
 				{% endif %}
 			</div>
 		</div>
         {% endfor %}
+		
     </body>
 </html>

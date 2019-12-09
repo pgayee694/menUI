@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <link rel="stylesheet" href="{{ url_for('static',filename='styles/menu-search.css') }}">
+    </head>
+    <body class="code">
+        <h1>{{ title }}</h1>
+
+        <form action="{{ url_for('menu_browse') }}" class="form" method="POST">
+
+            <p>Restaurant Name</p>
+            <input name="restaurantName" type="text">
+			<br/>
+
+            <p>Categories</p>
+            <select name="category" multiple>
+                {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+                {% endfor %}
+            </select>
+			<br/>
+
+            <p>Cuisines</p>
+            <select name="cuisine" multiple>
+                {% for cuisine in cuisines %}
+                <option value="{{ cuisine }}">{{ cuisine }}</option>
+                {% endfor %}
+            </select>
+			<br/>
+
+            <p>Establishments</p>
+            <select name="establishment" multiple>
+                {% for establishment in establishments %}
+                <option value="{{ establishment }}">{{ establishment }}</option>
+                {% endfor %}
+            </select>
+			
+			<br/>
+			<br/>
+            <input type="submit" class="center">
+
+        </form>
+    </body>
+</html>
