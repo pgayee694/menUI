@@ -113,7 +113,7 @@ def signup():
         loc = None
         locID = models.Location.query.filter_by(city=form_sign_up.city.data, region=form_sign_up.region.data).first().id
         if not locID:
-            loc = models.Location(city=form_sign_up.city.data, region=form_sign_up.region.data, country='placeholder', id = locID)
+            loc = models.Location(city=form_sign_up.city.data, region=form_sign_up.region.data, country='placeholder')
             db.session.add(loc)
             db.session.commit()
         else:
