@@ -49,7 +49,7 @@ def menu_browse():
 
     return render_template('menu-browse.html', restaurants=restaurants, isAdd=True)
 
-@app.route('/menu-compare/', methods=['GET', 'POST'])
+@app.route('/menu-compare/', methods=['GET','POST'])
 def menu_compare():
     if not current_user.is_authenticated:
         return redirect('/login')
