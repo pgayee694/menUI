@@ -81,18 +81,29 @@ def menu_compare():
     title = 'Compare with Friends Lists'
 
     if request.form.get('union'):
-        #TODO Test Union with users that actually have restaurant lists
         users.append(current_user)
-        restaurant_ids = utils.union_restaurants(users)
-        restaurants = utils.get_restaurant_details(restaurant_ids)
-        return render_template('menu-browse.html', restaurants=restaurants, isAdd=False)
+        res_names = utils.union_restaurants(users)
+        loc_id = session['loc_id']
+
+        sess = requests.Session()
+        res_ids = []
+        for res_name in res_names:
+            res_ids += utils.search_restaurants(loc_id, res_name, [], [], [], sess)
+
+        restaurants = utils.get_restaurant_details(res_ids)
+
+        valids = [r for r in restaurants if r.name in res_names]
+
+        return render_template('menu-browse.html', restaurants=valids, isAdd=False)
 
     if request.form.get('intersection'):
-        #TODO Test Intersection with users that actually have restaurant lists
+        print("intersection")
         users.append(current_user)
         restaurant_ids = utils.intersection_restaurants(users)
+        print(restaurant_ids)
         restaurants = utils.get_restaurant_details(restaurant_ids)
-        return render_template('menu-browse.html', restaurants=restaurants, isAdd=False)
+        print(restaurants)
+        return render_template('menu-browse.html', restaurants=restaurants, isAdd=True)
 
     return render_template('menu-compare.html', title=title, users=users)
 

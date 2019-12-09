@@ -226,9 +226,9 @@ def find_friendship(id1, id2):
 
 def union_restaurants(list):
     """
-    takes a list of users and returns a set of ids for all restaurants those users like.
+    takes a list of users and returns a set of names for all restaurants those users like.
     :param list: list of users
-    :return: set of ids
+    :return: set of restaurant names
     """
 
     restaurants = set()
@@ -236,17 +236,22 @@ def union_restaurants(list):
         tiny_restaurants = models.UserRestaurant.query.filter_by(user_id=user.id).all()
         for restaurant in tiny_restaurants:
             restaurants.add(restaurant)
-    restaurant_ids = set()
+    actual_restaurants = set()
     for restaurant in restaurants:
-        restaurant_ids.add(restaurant.restaurant_id)
+        queried_restaurants = models.Restaurant.query.filter_by(id=restaurant.restaurant_id).all()
+        for x in queried_restaurants:
+            actual_restaurants.add(x)
+    restaurant_names = set()
+    for restaurant in actual_restaurants:
+        restaurant_names.add(restaurant.name)
     # restaurants_deats = get_restaurant_details(restaurant_ids)
-    return restaurant_ids
+    return restaurant_names
 
 def intersection_restaurants(list):
     """
     takes a list of users and returns a set of ids for the intersection of all restaurants those users like.
     :param list: list of users
-    :return: set of ids
+    :return: set of zomato ids
     """
 
     restaurant_list = []
