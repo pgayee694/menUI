@@ -91,7 +91,7 @@ def logout():
     logout_user()
     return redirect('/')
 	
-@app.route('/menu-add', methods=['GET', 'POST'])
+@app.route('/home', methods=['GET', 'POST'])
 def menu_add():
 	
 	utils.add_user_restaurant(current_user.id, request.form.get('add'))
