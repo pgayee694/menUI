@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ title }}</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/menu-details.css') }}">
+    </head>
+    <body>
+        <h1 class="title">{{ title }}</h1>
+
+        {% if isImage %}
+            {% for item in items %}
+            <div class="menu-image">
+                <h2 class="page">{{ item.name }}</h2>
+                <img class="center" src="{{ item.desc }}">
+            </div>
+            {% endfor %}
+        {% else %}
+            {% for item in items %}
+            <div class="menu-item">
+                <b class="item-name">{{ item.name }}</b>
+                <br />
+                <ul>
+                <li class="item-info">{{ item.desc }}</li>
+                <li class="item-info">{{ item.price }}</li>
+                </ul>
+            </div>
+            {% endfor %}
+        {% endif %}
+    </body>
+</html>

@@ -1,4 +1,4 @@
-from app import app, utils, view_models, models, db
+from app import app, utils, view_models, models, db, scraper
 from flask import Flask, render_template, flash, redirect, session, request
 import requests
 import time
@@ -70,7 +70,30 @@ def menu_compare():
 	title = 'Compare with Friends Lists'
 	
 	return render_template('menu-compare.html', title=title, users=users)
-	
+
+@app.route('/menu-compare/', methods=['GET','POST'])
+def menu_compare():
+    if not current_user.is_authenticated:
+        return redirect('/login')
+    users = utils.get_friendlist(current_user.id)
+    title = 'Compare with Friends Lists'
+
+    if request.form.get('union'):
+        #TODO Test Union with users that actually have restaurant lists
+        users.append(current_user)
+        restaurant_ids = utils.union_restaurants(users)
+        restaurants = utils.get_restaurant_details(restaurant_ids)
+        return render_template('menu-browse.html', restaurants=restaurants, isAdd=False)
+
+    if request.form.get('intersection'):
+        #TODO Test Intersection with users that actually have restaurant lists
+        users.append(current_user)
+        restaurant_ids = utils.intersection_restaurants(users)
+        restaurants = utils.get_restaurant_details(restaurant_ids)
+        return render_template('menu-browse.html', restaurants=restaurants, isAdd=False)
+
+    return render_template('menu-compare.html', title=title, users=users)
+
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     form_log_in = LoginForm()
@@ -153,3 +176,10 @@ def friends():
 def logout():
     logout_user()
     return redirect('/')
+
+@app.route('/menu-details', methods=['POST'])
+def menu_details():
+    menurl = request.form.get('menurl')
+    
+    menu_items = scraper.parse_zomato(menurl) if 'zomato' in menurl else []
+    return render_template('menu-details.html', title='Menu Details', items=menu_items, isImage='Page' in menu_items[0].name)
