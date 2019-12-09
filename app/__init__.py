@@ -8,10 +8,10 @@ from flask_session import Session
 app = Flask(__name__)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
-db.create_all()
 migrate = Migrate(app, db)
 login = LoginManager(app)
 login.login_view = 'login'
 session = Session(app)
 
 from app import routes, models
+db.create_all()

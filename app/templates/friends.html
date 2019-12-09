@@ -3,29 +3,24 @@
         <link rel="stylesheet" href="{{ url_for('static',filename='styles/loginSignup.css') }}">
 <link href='https://fonts.googleapis.com/css?family=Lexend Deca' rel='stylesheet'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<title>Log In</title>
+<title>Find a Friend</title>
 <body>
 <button class="btn"><i class="fa fa-home"></i></button>
 <div class = "mainContainer">
-<h1 class = "bar">Login</h1>
-{% block login %}
+<h1 class = "bar">Connect With Friends!</h1>
+{% block friend %}
 <!-- Action URL will need to be updated once the script to handle user info is written-->
-{% for message in get_flashed_messages() %}
-  <p class="error">{{ message }}<br/></p>
-{% endfor %}
 <div class = "loginContainer">
+{% for message in get_flashed_messages() %}
+    <p>{{ message }}<br/></p>
+{% endfor %}
 <form action="" method="POST" id="Find a Friend" novalidate>
-  {{ form.hidden_tag() }}
-  <p>
+    {{ form.hidden_tag() }}
+    <p>
     {{ form.username.label }}<br>
     {{ form.username(size=32) }}
-  </p>
-  <p>
-    {{ form.password.label }}<br>
-    {{ form.password(size=32) }}
-  </p>
-  <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-  <p>{{ form.submit1() }}</p>
+    </p>
+    <p>{{ form.submit3() }}</p>
 </form>
 {% endblock %}
 </div>
@@ -33,4 +28,3 @@
 
 </body>
 </html>
-
