@@ -203,7 +203,7 @@ def get_restaurant_details_by_name(restaurantName, locId, start):
                     restaurantInfo['price_range'],
                     restaurantInfo['user_rating']['aggregate_rating'],
                     restaurantInfo['menu_url']))
-                break;
+                break
         
     if len(restaurants) == 0 and len(body['restaurants']) < start + 20:
         return None
