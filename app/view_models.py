@@ -10,3 +10,12 @@ class Restaurant():
     
     def __repr__(self):
         return '<Restauarant {}\n address {}\n photo {}\n timing {}, priceRange {}\n rating {}\n link {}'.format(self.name, self.address, self.photo, self.timing, self.priceRange, self.rating, self.link)
+
+class MenuItem():
+    def __init__(self, name, price=None, desc=None):
+        self.name = name
+        self.price = price
+        self.desc = desc
+    
+    def __repr__(self):
+        return '<MenuItem {}, price={}\n desc={}'.format(self.name, self.price, self.desc)
