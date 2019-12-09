@@ -38,3 +38,10 @@
 	margin-left: 15px;
 	margin-bottom: 7px;
 }
+
+.btn {
+	background: #873ebb;
+	color: white;
+	border-radius: 5px;
+	border: 1px;
+}

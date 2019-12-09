@@ -12,6 +12,10 @@ import time
 def hello():
     return render_template('home.html', title='Home')
 
+@app.route('/borgar')
+def borgar():
+    return render_template('borgar.html', title='borgar')
+
 @app.route('/menu-search', methods=['GET'])
 def menu_search():
     if not current_user.is_authenticated:
@@ -126,11 +130,16 @@ def signup():
 
     if form_sign_up.validate_on_submit() and form_sign_up.password.data == form_sign_up.password2.data:
         db.create_all()
-        loc = models.Location(city=form_sign_up.city.data, region=form_sign_up.region.data, country='placeholder')
-        if not utils.find_loc_id(form_sign_up.city.data, form_sign_up.region.data):
+        loc = None
+        locID = models.Location.query.filter_by(city=form_sign_up.city.data, region=form_sign_up.region.data).first().id
+        if not locID:
+            loc = models.Location(city=form_sign_up.city.data, region=form_sign_up.region.data, country='placeholder')
             db.session.add(loc)
             db.session.commit()
+        else:
+            loc = models.Location(city=form_sign_up.city.data, region=form_sign_up.region.data, country='placeholder')
 
+        
         user = models.User(username=form_sign_up.username.data, location_id=loc.id)
         user.set_password(form_sign_up.password.data)
         db.session.add(user)
