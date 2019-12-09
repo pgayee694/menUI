@@ -2,7 +2,7 @@ import requests
 from concurrent.futures import ThreadPoolExecutor
 import concurrent.futures as cf
 from requests_futures.sessions import FuturesSession
-from app import app, view_models, models
+from app import app, view_models, models, db
 
 def find_loc_id(city, region):
     """
@@ -10,7 +10,7 @@ def find_loc_id(city, region):
     """
 
     url = 'https://developers.zomato.com/api/v2.1/cities'
-    headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
+    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
     params = {'q': '{}, {}'.format(city, region)}
     
     response = requests.get(url, headers=headers, params=params)
@@ -33,7 +33,7 @@ def find_categories():
     """
 
     url = 'https://developers.zomato.com/api/v2.1/categories'
-    headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
+    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
 
     response = requests.get(url, headers=headers)
 
@@ -52,7 +52,7 @@ def find_cuisines(loc_id):
     """
 
     url = 'https://developers.zomato.com/api/v2.1/cuisines'
-    headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
+    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
     params = {'city_id': loc_id}
 
     response = requests.get(url, headers=headers, params=params)
@@ -72,7 +72,7 @@ def find_establishments(loc_id):
     """
 
     url = 'https://developers.zomato.com/api/v2.1/establishments'
-    headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
+    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
     params = {'city_id': loc_id}
 
     response = requests.get(url, headers=headers, params=params)
@@ -88,7 +88,7 @@ def find_establishments(loc_id):
 
 def search_restaurants(loc_id, res_name, cat_ids, cu_ids, establ_ids, connection_session=None):
     url = 'https://developers.zomato.com/api/v2.1/search'
-    headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
+    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
     params = {'entity_id': loc_id, 'q': res_name, 'cuisine': list_to_string(cu_ids), 'establishment_type': list_to_string(establ_ids), 'category': list_to_string(cat_ids), 'entity_type': 'city'}
 
     response = connection_session.get(url, headers=headers, params=params) if connection_session else requests.get(url, headers=headers, params=params)
@@ -104,7 +104,7 @@ def search_restaurants(loc_id, res_name, cat_ids, cu_ids, establ_ids, connection
 
 def get_restaurant_details(res_ids):
     url = 'https://developers.zomato.com/api/v2.1/restaurant'
-    headers = {'user_key': 'd272aea6d9f8f7183e42ea6dda828702'}
+    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
 
     restaurants = []
 
@@ -150,6 +150,27 @@ def list_to_string(lst):
             res += c
 
     return res
+	
+def add_user_restaurant(user_id, restaurant_name):
+	restaurant = add_restaurant(restaurant_name)
+	user_restaurant = models.UserRestaurant.query.filter_by(user_id=user_id, restaurant_id=restaurant).first()
+	
+	if not user_restaurant:
+		user_restaurant = models.UserRestaurant(user_id=user_id, restaurant_id=restaurant)
+		db.session.add(user_restaurant)
+		db.session.commit()
+	
+	return user_restaurant.id
+	
+def add_restaurant(restaurant_name):
+	restaurant = models.Restaurant.query.filter_by(name=restaurant_name).first()
+	
+	if not restaurant:
+		restaurant = models.Restaurant(name=restaurant_name)
+		db.session.add(restaurant)
+		db.session.commit()
+	
+	return restaurant.id
 
 def get_friendlist(id):
     """
@@ -207,4 +228,3 @@ def intersection_restaurants(list):
         restaurant_list.append(restaurant_ids)
     intersect = set.intersection(*restaurant_list)
     return intersect
-
