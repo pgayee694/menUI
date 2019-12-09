@@ -62,14 +62,6 @@ def menu_browse():
             restaurants.append(restaurant)
 
     return render_template('menu-browse.html', restaurants=restaurants, isAdd=False)
-	
-@app.route('/menu-compare', methods=['GET'])
-def menu_compare():
-	
-	users = []
-	title = 'Compare with Friends Lists'
-	
-	return render_template('menu-compare.html', title=title, users=users)
 
 @app.route('/menu-compare/', methods=['GET','POST'])
 def menu_compare():
