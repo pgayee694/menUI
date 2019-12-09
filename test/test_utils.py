@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from app import app, utils
+from app import app, utils, models, db
 
 class UtilsTest(unittest.TestCase):
     """
@@ -11,7 +11,7 @@ class UtilsTest(unittest.TestCase):
     def setUp(self):
         app.config['TESTING'] = True
         self.app = app.test_client()
-    
+
     def test_find_loc_id(self):
         city = 'Omaha'
         region = 'Nebraska'
@@ -80,3 +80,55 @@ class UtilsTest(unittest.TestCase):
         actual = utils.list_to_string(lst)
 
         self.assertEqual(actual, 'quack, le, doodle, doo')
+
+    def test_union_restaurants(self):
+        db.create_all()
+        user1 = models.User(id=1, username='test1', password='1', location_id=1)
+        user2 = models.User(id=2, username='test2', password='1', location_id=1)
+        user3 = models.User(id=3, username='test3', password='1', location_id=1)
+        users = {user1, user2, user3}
+
+        user_restaurant1 = models.UserRestaurant(id=1, user_id=1, restaurant_id=1)
+        user_restaurant2 = models.UserRestaurant(id=2, user_id=1, restaurant_id=2)
+        user_restaurant3 = models.UserRestaurant(id=3, user_id=2, restaurant_id=2)
+        user_restaurant4 = models.UserRestaurant(id=4, user_id=3, restaurant_id=2)
+        user_restaurant5 = models.UserRestaurant(id=5, user_id=3, restaurant_id=3)
+
+        db.session.add(user1)
+        db.session.add(user2)
+        db.session.add(user3)
+        db.session.add(user_restaurant1)
+        db.session.add(user_restaurant2)
+        db.session.add(user_restaurant3)
+        db.session.add(user_restaurant4)
+        db.session.add(user_restaurant5)
+        db.session.commit()
+
+        actual = utils.union_restaurants(users)
+        self.assertEqual(actual, {1, 2, 3})
+
+    def test_intersection_restaurants(self):
+        db.create_all()
+        user1 = models.User(id=4, username='test1', password='1', location_id=1)
+        user2 = models.User(id=5, username='test2', password='1', location_id=1)
+        user3 = models.User(id=6, username='test3', password='1', location_id=1)
+        users = {user1, user2, user3}
+
+        user_restaurant1 = models.UserRestaurant(id=6, user_id=4, restaurant_id=4)
+        user_restaurant2 = models.UserRestaurant(id=7, user_id=4, restaurant_id=5)
+        user_restaurant3 = models.UserRestaurant(id=8, user_id=5, restaurant_id=5)
+        user_restaurant4 = models.UserRestaurant(id=9, user_id=6, restaurant_id=5)
+        user_restaurant5 = models.UserRestaurant(id=10, user_id=6, restaurant_id=6)
+        
+        db.session.add(user1)
+        db.session.add(user2)
+        db.session.add(user3)
+        db.session.add(user_restaurant1)
+        db.session.add(user_restaurant2)
+        db.session.add(user_restaurant3)
+        db.session.add(user_restaurant4)
+        db.session.add(user_restaurant5)
+        db.session.commit()
+
+        actual = utils.intersection_restaurants(users)
+        self.assertEqual(actual, {5})
