@@ -10,7 +10,7 @@
 		<div>
         <h1 class="title">{{ title }}</h1>
 		
-		{% if isAdd %}
+		{% if not isAdd %}
 		<button class="compare" onclick="window.location.href='{{ url_for('menu_compare') }}'">Compare With Friends' Restaurants</button>
 		{% endif %}
 
@@ -35,11 +35,15 @@
 			
 			<div class="add">
 				{% if isAdd %}
-				<button class="button">Add</button>
+				<form action="{{ url_for('menu_add') }}" class="form" method="POST">
+					<input name="add" type="hidden" value="{{ restaurant.name }}">
+					<button type="submit">Add</button>
+				</form>
 				{% endif %}
 			</div>
 		</div>
         {% endfor %}
 		</div>
+
     </body>
 </html>

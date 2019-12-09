@@ -6,6 +6,7 @@ import sys
 from app.forms import LoginForm, SignInForm, FriendForm
 from .models import db, User, Location
 from flask_login import login_user, current_user, logout_user
+import time
 
 @app.route('/')
 def hello():
@@ -30,30 +31,49 @@ def menu_search():
     session['establs'] = establishments
     return render_template('menu-search.html', title='Menu Search', categories=categories.keys(), cuisines=cuisines.keys(), establishments=establishments.keys())
 
-@app.route('/menu-browse', methods=['POST'])
+@app.route('/menu-browse', methods=['GET', 'POST'])
 def menu_browse():
     if not current_user.is_authenticated:
         return redirect('/login')
-    loc_id = session['loc_id']
-    res_name = request.form.get('restaurantName') or ''
-    category = request.form.getlist('category')
-    cuisine = request.form.getlist('cuisine')
-    establishment = request.form.getlist('establishment')
-    
-    cats = session['categories']
-    cus = session['cuisines']
-    establs = session['establs']
 
-    cat_ids = [cats[cat] for cat in category]
-    cu_ids = [cus[c] for c in cuisine]
-    establ_ids = [establs[establ] for establ in establishment]
+    if request.method == 'POST':
+        loc_id = session['loc_id']
+        res_name = request.form.get('restaurantName') or ''
+        category = request.form.getlist('category')
+        cuisine = request.form.getlist('cuisine')
+        establishment = request.form.getlist('establishment')
+        
+        cats = session['categories']
+        cus = session['cuisines']
+        establs = session['establs']
 
-    res_ids = utils.search_restaurants(loc_id, res_name, cat_ids, cu_ids, establ_ids)
-    restaurants = utils.get_restaurant_details(res_ids)
+        cat_ids = [cats[cat] for cat in category]
+        cu_ids = [cus[c] for c in cuisine]
+        establ_ids = [establs[establ] for establ in establishment]
 
-    return render_template('menu-browse.html', restaurants=restaurants, isAdd=True)
+        res_ids = utils.search_restaurants(loc_id, res_name, cat_ids, cu_ids, establ_ids)
+        restaurants = utils.get_restaurant_details(res_ids)
 
-@app.route('/menu-compare/', methods=['GET','POST'])
+        return render_template('menu-browse.html', restaurants=restaurants, isAdd=True)
+    else:
+        #GET
+        start = time.time()
+
+        res_names = utils.get_user_restaurants(current_user.id)
+        loc_id = session['loc_id']
+        
+        sess = requests.Session()
+        res_ids = []
+        for res_name in res_names:
+            res_ids += utils.search_restaurants(loc_id, res_name, [], [], [], sess)
+        
+        restaurants = utils.get_restaurant_details(res_ids)
+
+        valids = [r for r in restaurants if r.name in res_names]
+
+        return render_template('menu-browse.html', restaurants=valids, isAdd=False)
+
+@app.route('/menu-compare', methods=['GET'])
 def menu_compare():
     if not current_user.is_authenticated:
         return redirect('/login')
@@ -163,6 +183,14 @@ def friends():
 def logout():
     logout_user()
     return redirect('/')
+	
+@app.route('/menu-add', methods=['GET', 'POST'])
+def menu_add():
+	
+	utils.add_user_restaurant(current_user.id, request.form.get('add'))
+	flash("Restaurant " + request.form.get('add') + " was added!!!")
+	
+	return redirect('/')
 
 @app.route('/menu-details', methods=['POST'])
 def menu_details():
