@@ -59,13 +59,15 @@ def menu_compare():
     if request.form.get('union'):
         #TODO Test Union with users that actually have restaurant lists
         users.append(current_user)
-        restaurants = utils.union_restaurants(users)
+        restaurant_ids = utils.union_restaurants(users)
+        restaurants = utils.get_restaurant_details(restaurant_ids)
         return render_template('menu-browse.html', restaurants=restaurants, isAdd=False)
 
     if request.form.get('intersection'):
         #TODO Test Intersection with users that actually have restaurant lists
         users.append(current_user)
-        restaurants = utils.intersection_restaurants(users)
+        restaurant_ids = utils.intersection_restaurants(users)
+        restaurants = utils.get_restaurant_details(restaurant_ids)
         return render_template('menu-browse.html', restaurants=restaurants, isAdd=False)
 
     return render_template('menu-compare.html', title=title, users=users)
