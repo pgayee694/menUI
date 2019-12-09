@@ -1,4 +1,4 @@
-from app import app, utils, view_models, models, db
+from app import app, utils, view_models, models, db, scraper
 from flask import Flask, render_template, flash, redirect, session, request
 import requests
 import time
@@ -98,3 +98,10 @@ def signup():
 def logout():
     logout_user()
     return redirect('/')
+
+@app.route('/menu-details', methods=['POST'])
+def menu_details():
+    menurl = request.form.get('menurl')
+    
+    menu_items = scraper.parse_zomato(menurl) if 'zomato' in menurl else []
+    return render_template('menu-details.html', title='Menu Details', items=menu_items, isImage='Page' in menu_items[0].name)
