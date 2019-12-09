@@ -3,7 +3,12 @@ html {
     background-color: #d8d1de;
     color: #45474a;
 }
-
+.btn {
+	background: #873ebb;
+	color: white;
+	border-radius: 5px;
+	border: 1px;
+}
 .menu-item {
     border: 4px solid #873ebb;
 	border-radius: 10px;
@@ -33,10 +38,4 @@ html {
 .menu-image {
 	align-content: center;
 	text-align: center;
-}
-.btn {
-	background: #873ebb;
-	color: white;
-	border-radius: 5px;
-	border: 1px;
 }
