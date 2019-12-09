@@ -5,10 +5,11 @@
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
  <title>Sign up</title>
  <body>
+	<button class="btn" onclick="window.location.href = '/'"><i class="fa fa-home"></i></button>
 	<div class="mainContainer">
 		<h1 class = "bar">Sign up!</h1>
 		{% block signup %}
-		(Maximum size of 32 characters for all fields)<br>
+		<br>
 		{% for message in get_flashed_messages() %}
    			 <p class="error">{{ message }}<br/></p>
 		{% endfor %}

@@ -34,3 +34,9 @@ html {
 	align-content: center;
 	text-align: center;
 }
+.btn {
+	background: #873ebb;
+	color: white;
+	border-radius: 5px;
+	border: 1px;
+}

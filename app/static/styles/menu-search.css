@@ -20,3 +20,9 @@
 .center {
 	margin-left: 0%;
 }
+.btn {
+  background: #873ebb;
+  color: white;
+  border-radius: 5px;
+  border: 1px;
+}
