@@ -11,7 +11,7 @@ def find_loc_id(city, region):
 
     url = 'https://developers.zomato.com/api/v2.1/cities'
 
-    headers = {'user_key': 'ba02e4e97bc4d507aeb20701066b7a15'}
+    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
     params = {'q': '{}, {}'.format(city, region)}
     
     response = requests.get(url, headers=headers, params=params)
@@ -35,7 +35,7 @@ def find_categories():
 
     url = 'https://developers.zomato.com/api/v2.1/categories'
 
-    headers = {'user_key': 'ba02e4e97bc4d507aeb20701066b7a15'}
+    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
 
 
     response = requests.get(url, headers=headers)
@@ -56,7 +56,7 @@ def find_cuisines(loc_id):
 
     url = 'https://developers.zomato.com/api/v2.1/cuisines'
 
-    headers = {'user_key': 'ba02e4e97bc4d507aeb20701066b7a15'}
+    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
 
     params = {'city_id': loc_id}
 
@@ -78,7 +78,7 @@ def find_establishments(loc_id):
 
     url = 'https://developers.zomato.com/api/v2.1/establishments'
 
-    headers = {'user_key': 'ba02e4e97bc4d507aeb20701066b7a15'}
+    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
 
     params = {'city_id': loc_id}
 
@@ -96,7 +96,7 @@ def find_establishments(loc_id):
 def search_restaurants(loc_id, res_name, cat_ids, cu_ids, establ_ids, connection_session=None):
     url = 'https://developers.zomato.com/api/v2.1/search'
 
-    headers = {'user_key': 'ba02e4e97bc4d507aeb20701066b7a15'}
+    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
 
     params = {'entity_id': loc_id, 'q': res_name, 'cuisine': list_to_string(cu_ids), 'establishment_type': list_to_string(establ_ids), 'category': list_to_string(cat_ids), 'entity_type': 'city'}
 
@@ -114,7 +114,7 @@ def search_restaurants(loc_id, res_name, cat_ids, cu_ids, establ_ids, connection
 def get_restaurant_details(res_ids):
     url = 'https://developers.zomato.com/api/v2.1/restaurant'
 
-    headers = {'user_key': 'ba02e4e97bc4d507aeb20701066b7a15'}
+    headers = {'user_key': 'e74153df38632880474d4788e0936560'}
 
 
     restaurants = []
