@@ -105,7 +105,7 @@
   text-align: center;
 }
 
-.loginForms{
+.loginForms {
   border: #873ebb;
   border-width: 1px;
   border-style: solid;
@@ -114,12 +114,24 @@
   margin-top: 1%;
 }
 
+.message {
+	border: 4px solid #873ebb;
+	border-radius: 10px;
+	background-color: #fbf2ff;
+	margin-left: 30px;
+	padding: 5px;
+	margin-top: 50px;
+	width: 30%;
+	text-align: center;
+	border-color: #e0c528;
+}
+
 #browseimg {
   height:40%;
   width:40%;
 }
 
-#searchimg{
+#searchimg {
   height:40%;
   width:40%;
 }

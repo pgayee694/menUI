@@ -11,6 +11,10 @@ class UtilsTest(unittest.TestCase):
     def setUp(self):
         app.config['TESTING'] = True
         self.app = app.test_client()
+    
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
 
     def test_find_loc_id(self):
         city = 'Omaha'
@@ -132,3 +136,25 @@ class UtilsTest(unittest.TestCase):
 
         actual = utils.intersection_restaurants(users)
         self.assertEqual(actual, {5})
+    
+    def test_get_user_restaurants(self):
+        db.create_all()
+        user1 = models.User(username='test1', password='1', location_id=1)
+        db.session.add(user1)
+        db.session.commit()
+
+        res1 = models.Restaurant(name='Qdoba')
+        res2 = models.Restaurant(name='Salween Thai')
+        db.session.add(res1)
+        db.session.add(res2)
+        db.session.commit()
+
+        user_res1 = models.UserRestaurant(user_id=user1.id, restaurant_id=res1.id)
+        user_res2 = models.UserRestaurant(user_id=user1.id, restaurant_id=res2.id)
+        db.session.add(user_res1)
+        db.session.add(user_res2)
+        db.session.commit()
+
+        actual = utils.get_user_restaurants(user1.id)
+
+        self.assertEqual(len(actual), 2)

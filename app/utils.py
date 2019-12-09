@@ -2,7 +2,7 @@ import requests
 from concurrent.futures import ThreadPoolExecutor
 import concurrent.futures as cf
 from requests_futures.sessions import FuturesSession
-from app import app, view_models, models
+from app import app, view_models, models, db
 
 def find_loc_id(city, region):
     """
@@ -10,6 +10,7 @@ def find_loc_id(city, region):
     """
 
     url = 'https://developers.zomato.com/api/v2.1/cities'
+
     headers = {'user_key': 'ba02e4e97bc4d507aeb20701066b7a15'}
     params = {'q': '{}, {}'.format(city, region)}
     
@@ -33,7 +34,9 @@ def find_categories():
     """
 
     url = 'https://developers.zomato.com/api/v2.1/categories'
+
     headers = {'user_key': 'ba02e4e97bc4d507aeb20701066b7a15'}
+
 
     response = requests.get(url, headers=headers)
 
@@ -52,7 +55,9 @@ def find_cuisines(loc_id):
     """
 
     url = 'https://developers.zomato.com/api/v2.1/cuisines'
+
     headers = {'user_key': 'ba02e4e97bc4d507aeb20701066b7a15'}
+
     params = {'city_id': loc_id}
 
     response = requests.get(url, headers=headers, params=params)
@@ -72,7 +77,9 @@ def find_establishments(loc_id):
     """
 
     url = 'https://developers.zomato.com/api/v2.1/establishments'
+
     headers = {'user_key': 'ba02e4e97bc4d507aeb20701066b7a15'}
+
     params = {'city_id': loc_id}
 
     response = requests.get(url, headers=headers, params=params)
@@ -88,7 +95,9 @@ def find_establishments(loc_id):
 
 def search_restaurants(loc_id, res_name, cat_ids, cu_ids, establ_ids, connection_session=None):
     url = 'https://developers.zomato.com/api/v2.1/search'
+
     headers = {'user_key': 'ba02e4e97bc4d507aeb20701066b7a15'}
+
     params = {'entity_id': loc_id, 'q': res_name, 'cuisine': list_to_string(cu_ids), 'establishment_type': list_to_string(establ_ids), 'category': list_to_string(cat_ids), 'entity_type': 'city'}
 
     response = connection_session.get(url, headers=headers, params=params) if connection_session else requests.get(url, headers=headers, params=params)
@@ -104,7 +113,9 @@ def search_restaurants(loc_id, res_name, cat_ids, cu_ids, establ_ids, connection
 
 def get_restaurant_details(res_ids):
     url = 'https://developers.zomato.com/api/v2.1/restaurant'
+
     headers = {'user_key': 'ba02e4e97bc4d507aeb20701066b7a15'}
+
 
     restaurants = []
 
@@ -140,7 +151,7 @@ def get_restaurant_details(res_ids):
     return restaurants
 
 def list_to_string(lst):
-    if not lst:
+    if not lst or len(lst) == 0:
         return ''
     
     res = ''
@@ -150,6 +161,43 @@ def list_to_string(lst):
             res += c
 
     return res
+	
+def get_user_restaurants(userId):
+	"""
+    Queries our database for all the restaurants a user has
+    """
+
+	restaurantNames = []
+	userRestaurants = models.UserRestaurant.query.filter_by(user_id=userId).all()
+	
+	for userRestaurant in userRestaurants:
+		restaurant = models.Restaurant.query.filter_by(id=userRestaurant.restaurant_id).first()
+		
+		if not restaurant.name in restaurantNames:
+			restaurantNames.append(restaurant.name)
+		
+	return restaurantNames
+
+def add_user_restaurant(user_id, restaurant_name):
+	restaurant = add_restaurant(restaurant_name)
+	user_restaurant = models.UserRestaurant.query.filter_by(user_id=user_id, restaurant_id=restaurant).first()
+	
+	if not user_restaurant:
+		user_restaurant = models.UserRestaurant(user_id=user_id, restaurant_id=restaurant)
+		db.session.add(user_restaurant)
+		db.session.commit()
+	
+	return user_restaurant.id
+	
+def add_restaurant(restaurant_name):
+	restaurant = models.Restaurant.query.filter_by(name=restaurant_name).first()
+	
+	if not restaurant:
+		restaurant = models.Restaurant(name=restaurant_name)
+		db.session.add(restaurant)
+		db.session.commit()
+	
+	return restaurant.id
 
 def get_friendlist(id):
     """
@@ -157,6 +205,7 @@ def get_friendlist(id):
     :param id: user id to query for friends
     :return: list of all the users friends.
     """
+
     friendships = models.Friends.query.filter_by(friend1_id=id).all()
     friends = []
     for x in friendships:
@@ -165,10 +214,11 @@ def get_friendlist(id):
 
 def find_user_by_username(username_in):
     """
-     returns the first user with the given username, None if the user isn't found.
+    returns the first user with the given username, None if the user isn't found.
     :param username_in: username to check
     :return: the user if it exists
     """
+
     return models.User.query.filter_by(username=username_in).first()
 
 def find_friendship(id1, id2):
@@ -180,6 +230,7 @@ def union_restaurants(list):
     :param list: list of users
     :return: set of ids
     """
+
     restaurants = set()
     for user in list:
         tiny_restaurants = models.UserRestaurant.query.filter_by(user_id=user.id).all()
@@ -197,6 +248,7 @@ def intersection_restaurants(list):
     :param list: list of users
     :return: set of ids
     """
+
     restaurant_list = []
     for user in list:
         restaurant_ids = set()
@@ -207,4 +259,3 @@ def intersection_restaurants(list):
         restaurant_list.append(restaurant_ids)
     intersect = set.intersection(*restaurant_list)
     return intersect
-
