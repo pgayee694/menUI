@@ -7,7 +7,7 @@
     <body class="code">
         <h1 class="title">{{ title }}</h1>
 		
-		{% if isAdd %}
+		{% if not isAdd %}
 		<button class="compare" onclick="window.location.href='{{ url_for('menu_compare') }}'">Compare With Friends' Restaurants</button>
 		{% endif %}
 
