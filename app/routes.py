@@ -20,7 +20,6 @@ def menu_search():
     if not current_user.is_authenticated:
         return redirect('/login')
     location = models.Location.query.filter_by(id=current_user._get_current_object().location_id).first()
-    print(location)
     id = utils.find_loc_id(location.city, location.region)
     session['loc_id'] = id
     categories = utils.find_categories()
@@ -118,7 +117,7 @@ def signup():
             db.session.add(loc)
             db.session.commit()
         else:
-            loc = models.Location(city=form_sign_up.city.data, region=form_sign_up.region.data, country='placeholder', id = locID)
+            loc = models.Location(city=form_sign_up.city.data, region=form_sign_up.region.data, country='placeholder')
 
         
         user = models.User(username=form_sign_up.username.data, location_id=loc.id)
