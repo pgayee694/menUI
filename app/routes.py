@@ -51,24 +51,18 @@ def menu_browse():
         cu_ids = [cus[c] for c in cuisine]
         establ_ids = [establs[establ] for establ in establishment]
 
-        res_ids = utils.search_restaurants(loc_id, res_name, cat_ids, cu_ids, establ_ids)
+        res_ids = utils.search_restaurants(loc_id, [res_name], cat_ids, cu_ids, establ_ids)
         restaurants = utils.get_restaurant_details(res_ids)
 
         return render_template('menu-browse.html', restaurants=restaurants, isAdd=True)
     else:
         #GET
-        start = time.time()
-
         res_names = utils.get_user_restaurants(current_user.id)
         loc_id = session['loc_id']
         
-        sess = requests.Session()
-        res_ids = []
-        for res_name in res_names:
-            res_ids += utils.search_restaurants(loc_id, res_name, [], [], [], sess)
+        res_ids = utils.search_restaurants(loc_id, res_names, [], [], [])
         
         restaurants = utils.get_restaurant_details(res_ids)
-
         valids = [r for r in restaurants if r.name in res_names]
 
         return render_template('menu-browse.html', restaurants=valids, isAdd=False)
@@ -90,9 +84,9 @@ def menu_compare():
         loc_id = session['loc_id']
 
         sess = requests.Session()
-        res_ids = []
-        for res_name in res_names:
-            res_ids += utils.search_restaurants(loc_id, res_name, [], [], [], sess)
+        res_ids = utils.search_restaurants(loc_id, res_names, [], [], [], sess)
+        #for res_name in res_names:
+        #    res_ids += utils.search_restaurants(loc_id, res_name, [], [], [], sess)
 
         restaurants = utils.get_restaurant_details(res_ids)
 
@@ -110,9 +104,9 @@ def menu_compare():
         loc_id = session['loc_id']
 
         sess = requests.Session()
-        res_ids = []
-        for res_name in res_names:
-            res_ids += utils.search_restaurants(loc_id, res_name, [], [], [], sess)
+        res_ids = utils.search_restaurants(loc_id, res_names, [], [], [], sess)
+        #for res_name in res_names:
+        #    res_ids += utils.search_restaurants(loc_id, res_name, [], [], [], sess)
 
         restaurants = utils.get_restaurant_details(res_ids)
 
