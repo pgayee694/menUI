@@ -81,6 +81,10 @@ def menu_compare():
     title = 'Compare with Friends Lists'
 
     if request.form.get('union'):
+        usernames = request.form.getlist('users')
+        users = []
+        for name in usernames:
+            users.append(utils.find_user_by_username(name))
         users.append(current_user)
         res_names = utils.union_restaurants(users)
         loc_id = session['loc_id']
@@ -97,6 +101,10 @@ def menu_compare():
         return render_template('menu-browse.html', restaurants=valids, isAdd=False)
 
     if request.form.get('intersection'):
+        usernames = request.form.getlist('users')
+        users = []
+        for name in usernames:
+            users.append(utils.find_user_by_username(name))
         users.append(current_user)
         res_names = utils.intersection_restaurants(users)
         loc_id = session['loc_id']
