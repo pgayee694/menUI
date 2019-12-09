@@ -165,7 +165,6 @@ def get_user_restaurants(userId):
 		
 		if not restaurant.name in restaurantNames:
 			restaurantNames.append(restaurant.name)
-			print (restaurant.name)
 		
 	return restaurantNames
 
