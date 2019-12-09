@@ -196,5 +196,12 @@ def menu_add():
 def menu_details():
     menurl = request.form.get('menurl')
     
-    menu_items = scraper.parse_zomato(menurl) if 'zomato' in menurl else []
-    return render_template('menu-details.html', title='Menu Details', items=menu_items, isImage='Page' in menu_items[0].name)
+    menu_items = []
+    if 'zomato' in menurl:
+        menu_items = scraper.parse_zomato(menurl)
+		
+    if not len(menu_items) == 0:
+        return render_template('menu-details.html', title='Menu Details', items=menu_items, isImage='Page' in menu_items[0].name)
+    else:
+        return render_template('menu-details.html', title='Sorry, there is no menu listed for this restaurant :(', items=menu_items, isImage=False)	
+    
