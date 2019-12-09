@@ -61,7 +61,7 @@ class UtilsTest(unittest.TestCase):
         cu_ids = list(utils.find_cuisines(loc_id).values())[0:2]
         cat_ids = list(utils.find_categories().values())[0:2]
 
-        actual = utils.search_restaurants(loc_id, 'shucks', cat_ids, cu_ids, establ_ids)
+        actual = utils.search_restaurants(loc_id, ['shucks'], cat_ids, cu_ids, establ_ids)
 
         self.assertIsNotNone(actual)
         self.assertGreater(len(actual), 0)
@@ -72,7 +72,7 @@ class UtilsTest(unittest.TestCase):
         cu_ids = list(utils.find_cuisines(loc_id).values())[0:2]
         cat_ids = list(utils.find_categories().values())[0:2]
 
-        res_ids = utils.search_restaurants(loc_id, 'shucks', cat_ids, cu_ids, establ_ids)
+        res_ids = utils.search_restaurants(loc_id, ['shucks'], cat_ids, cu_ids, establ_ids)
 
         actual = utils.get_restaurant_details(res_ids)
 
