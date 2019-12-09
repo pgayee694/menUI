@@ -154,7 +154,7 @@ def list_to_string(lst):
 #returns a list of all the friends (as users) for a given user ID
 def get_friendlist(id):
     friendships = models.Friends.query.filter_by(friend1_id=id).all()
-    friends = {}
+    friends = []
     for x in friendships:
         friends.append(models.User.query.filter_by(id=x.friend2_id).first())
     return friends
@@ -165,4 +165,31 @@ def find_user_by_username(username_in):
 
 def find_friendship(id1, id2):
     return models.Friends.query.filter_by(friend1_id=id1, friend2_id=id2).first()
+
+#takes a list of users and returns a set of details for all restaurants those users like.
+def union_restaurants(list):
+    restaurants = set()
+    for user in list:
+        tiny_restaurants = models.UserRestaurant.query.filter_by(user_id=user.id).all()
+        for restaurant in tiny_restaurants:
+            restaurants.add(restaurant)
+    restaurant_ids = []
+    for restaurant in restaurants:
+        restaurant_ids.append(restaurant.restaurant_ids)
+    restaurants_deats = get_restaurant_details(restaurant_ids)
+    return restaurants_deats
+
+#takes a list of users and returns a set of the intersection of all restaurants those users like.
+def intersection_restaurants(list):
+    restaurant_list = []
+    for user in list:
+        tiny_restaurants = models.UserRestaurant.query.filter_by(user_id=user.id).all()
+        tiny_restaurants = set(tiny_restaurants)
+        restaurant_list.append(tiny_restaurants)
+    intersect = set.intersection(*restaurant_list)
+    intersect_ids = []
+    for restaurant in intersect:
+        intersect_ids.append(restaurant.restaurant_ids)
+    restaurants_deats = get_restaurant_details(intersect_ids)
+    return restaurants_deats
 
