@@ -9,7 +9,7 @@
 	<div class="mainContainer">
 		<h1 class = "bar">Sign up!</h1>
 		{% block signup %}
-		(Maximum size of 32 characters for all fields)<br>
+		<br>
 		{% for message in get_flashed_messages() %}
    			 <p class="error">{{ message }}<br/></p>
 		{% endfor %}
