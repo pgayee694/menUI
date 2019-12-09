@@ -11,7 +11,7 @@ def find_loc_id(city, region):
 
     url = 'https://developers.zomato.com/api/v2.1/cities'
 
-    headers = {'user_key': 'a3e4c81069fcec11d6d0c7e3b4b59900'}
+    headers = {'user_key': '30bcd3e85f2f152b0551a73b6b6d4edc'}
     params = {'q': '{}, {}'.format(city, region)}
     
     response = requests.get(url, headers=headers, params=params)
@@ -35,7 +35,7 @@ def find_categories():
 
     url = 'https://developers.zomato.com/api/v2.1/categories'
 
-    headers = {'user_key': 'a3e4c81069fcec11d6d0c7e3b4b59900'}
+    headers = {'user_key': '30bcd3e85f2f152b0551a73b6b6d4edc'}
 
 
     response = requests.get(url, headers=headers)
@@ -56,7 +56,7 @@ def find_cuisines(loc_id):
 
     url = 'https://developers.zomato.com/api/v2.1/cuisines'
 
-    headers = {'user_key': 'a3e4c81069fcec11d6d0c7e3b4b59900'}
+    headers = {'user_key': '30bcd3e85f2f152b0551a73b6b6d4edc'}
 
     params = {'city_id': loc_id}
 
@@ -78,7 +78,7 @@ def find_establishments(loc_id):
 
     url = 'https://developers.zomato.com/api/v2.1/establishments'
 
-    headers = {'user_key': 'a3e4c81069fcec11d6d0c7e3b4b59900'}
+    headers = {'user_key': '30bcd3e85f2f152b0551a73b6b6d4edc'}
 
     params = {'city_id': loc_id}
 
@@ -97,7 +97,7 @@ def search_restaurants(loc_id, res_names, cat_ids, cu_ids, establ_ids, connectio
     url = 'https://developers.zomato.com/api/v2.1/search'
 
     start = 0
-    headers = {'user_key': 'a3e4c81069fcec11d6d0c7e3b4b59900'}
+    headers = {'user_key': '30bcd3e85f2f152b0551a73b6b6d4edc'}
 
     session = FuturesSession()
     futures = []
@@ -129,7 +129,7 @@ def search_restaurants(loc_id, res_names, cat_ids, cu_ids, establ_ids, connectio
 def get_restaurant_details(res_ids):
     url = 'https://developers.zomato.com/api/v2.1/restaurant'
 
-    headers = {'user_key': 'a3e4c81069fcec11d6d0c7e3b4b59900'}
+    headers = {'user_key': '30bcd3e85f2f152b0551a73b6b6d4edc'}
 
 
     restaurants = []
