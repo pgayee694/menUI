@@ -6,7 +6,6 @@ import sys
 from app.forms import LoginForm, SignInForm, FriendForm
 from .models import db, User, Location
 from flask_login import login_user, current_user, logout_user
-import time
 
 @app.route('/')
 def hello():
@@ -53,8 +52,6 @@ def menu_browse():
         return render_template('menu-browse.html', restaurants=restaurants, isAdd=True)
     else:
         #GET
-        start = time.time()
-
         res_names = utils.get_user_restaurants(current_user.id)
         loc_id = session['loc_id']
         
