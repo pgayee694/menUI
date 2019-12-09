@@ -249,18 +249,20 @@ def union_restaurants(list):
 
 def intersection_restaurants(list):
     """
-    takes a list of users and returns a set of ids for the intersection of all restaurants those users like.
+    takes a list of users and returns a set of names for the intersection of all restaurants those users like.
     :param list: list of users
-    :return: set of zomato ids
+    :return: set of names
     """
 
     restaurant_list = []
     for user in list:
-        restaurant_ids = set()
+        restaurant_names = set()
         tiny_restaurants = models.UserRestaurant.query.filter_by(user_id=user.id).all()
-        for restaurant in tiny_restaurants:
-            restaurant_ids.add(restaurant.restaurant_id)
+        for user_restaurant in tiny_restaurants:
+            names = models.Restaurant.query.filter_by(id=user_restaurant.restaurant_id).all()
+            for name in names:
+                restaurant_names.add(name)
 
-        restaurant_list.append(restaurant_ids)
+        restaurant_list.append(restaurant_names)
     intersect = set.intersection(*restaurant_list)
     return intersect
